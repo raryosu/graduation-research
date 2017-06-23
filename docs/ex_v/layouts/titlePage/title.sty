@@ -1,0 +1,29 @@
+% タイトルページの表示設定
+% 2017/05/12 Hagihara Ryosuke
+
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1pt\hfill \kern \z@}
+\renewcommand{\maketitle}{\begin{titlepage}%
+		\let\footnotesize\small
+		\let\footnoterule\relax
+		\parindent \z@
+		\reset@font
+		\null\vfil
+		\begin{flushleft}
+      {\bf \huge \@title}
+		\end{flushleft}
+		\par
+		\hrule height 4pt
+		\par
+		\begin{flushright}
+      {\bf \Large \@author \par}
+		\end{flushright}
+		\vskip 60\p@
+		\vfil\null
+		\begin{flushright}
+			{\@date}%
+		\end{flushright}
+	\end{titlepage}%
+	\setcounter{footnote}{0}%
+}
+\makeatother
