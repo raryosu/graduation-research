@@ -20,16 +20,14 @@ initial_centroids = choose_random_centroids(samples, n_clusters)
 nearest_indices = assign_to_nearest(samples, initial_centroids)
 updated_centroids = update_centroids(samples, nearest_indices, n_clusters)
 
-# Update
-# 多分ここでupdateというTensorを作って
-# assign_to_nearestとupdate_centoirdsをするように定義してやればいい？
-update = 0
+# どうやってくりかえせばいいかさっぱりわからない
 
 model = tf.global_variables_initializer()
 with tf.Session() as session:
     sample_values = session.run(samples)
     for i in range(10):
-        updated_centroid_value = session.run(update)
+        updated_centroid_value = session.run(updated_centroids)
         print(updated_centroid_value)
 
         plot_clusters(sample_values, updated_centroid_value, n_samples_per_cluster)
+

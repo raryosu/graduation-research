@@ -60,9 +60,6 @@ def assign_to_nearest(samples, centroids):
     """
     expanded_vectors = tf.expand_dims(samples, 0)
     expanded_centroids = tf.expand_dims(centroids, 1)
-    # distances = (expanded_vectors - expanded_centroids)^2
-    # 3次元目で足し合わせ
-    # 次元が一つ落ちるからexpand_dimsしていた
     distances = tf.reduce_sum( tf.square(
         tf.subtract(expanded_vectors, expanded_centroids)), 2)
     mins = tf.argmin(distances, 0)
