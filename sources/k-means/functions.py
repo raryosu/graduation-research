@@ -80,3 +80,8 @@ def update_centroids(samples, nearest_indices, n_clusters):
     new_centroids = tf.concat([tf.expand_dims(tf.reduce_mean(partition, 0), 0) for partition in partitions], 0)
     return new_centroids
 
+def update(samples, centroids, n_clusters):
+    nearest_indices = assign_to_nearest(samples, centroids)
+    centroids = update_centroids(samples, nearest_indices, n_clusters)
+    return centroids
+
