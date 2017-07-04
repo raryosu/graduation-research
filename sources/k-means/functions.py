@@ -16,7 +16,7 @@ def plot_clusters(all_samples, labels, centroids, n_samples_per_cluster):
     import matplotlib.pyplot as plt
     colour = plt.cm.rainbow(np.linspace(0,1,len(centroids)))
     for i, centroid in enumerate(centroids):
-        samples = np.array([list(data) for j, data in enumerate(all_samples) if labels[j]==i])
+        samples = np.array([data for j, data in enumerate(all_samples) if labels[j]==i])
         plt.scatter(samples[:,0], samples[:,1], c=colour[i])
         plt.plot(centroid[0], centroid[1], markersize=35, marker="x", color='k', mew=10)
         plt.plot(centroid[0], centroid[1], markersize=30, marker="x", color='m', mew=5)
