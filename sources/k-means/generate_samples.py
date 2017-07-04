@@ -15,7 +15,12 @@ n_samples_per_cluster = 500
 seed = 700
 embiggen_factor = 70
 
-samples, labels = datasets.make_blobs(n_samples = n_samples_per_cluster, random_state=seed)
+centers = np.random.randint(-5, 5, (n_clusters, 2))
+samples, labels = datasets.make_blobs(
+        n_samples = n_samples_per_cluster,
+        centers = centers,
+        random_state=seed
+        )
 samples = tf.Variable(samples)
 labels = tf.Variable(labels)
 initial_centroids = choose_random_centroids(samples, n_clusters)
