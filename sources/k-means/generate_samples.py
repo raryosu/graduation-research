@@ -11,7 +11,7 @@ from functions import *
 
 n_features = 2
 n_clusters = 3
-n_samples_per_cluster = 500
+n_samples_per_cluster = 1000
 seed = 700
 embiggen_factor = 70
 
