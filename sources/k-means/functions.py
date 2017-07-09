@@ -9,10 +9,21 @@ http://learningtensorflow.com/lesson6/
 import tensorflow as tf
 import numpy as np
 
-def plot_clusters(all_samples, labels, centroids, n_samples_per_cluster):
+def plot_samples(all_samples, save=False):
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    plt.scatter(all_samples[:, 0], all_samples[:, 1], color='k')
+    plt.show()
+    if save:
+        plt.savefig("img/before.pdf")
+
+def plot_clusters(all_samples, labels, centroids, n_samples_per_cluster, save=True):
     """
     Plot the clusters with different colour for each cluster
     """
+    import matplotlib
+    matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     colour = plt.cm.rainbow(np.linspace(0,1,len(centroids)))
     for i, centroid in enumerate(centroids):
@@ -21,6 +32,8 @@ def plot_clusters(all_samples, labels, centroids, n_samples_per_cluster):
         plt.plot(centroid[0], centroid[1], markersize=35, marker="x", color='k', mew=10)
         plt.plot(centroid[0], centroid[1], markersize=30, marker="x", color='m', mew=5)
     plt.show()
+    if save:
+        plt.savefig("img/after.pdf")
 
 def choose_random_centroids(samples, n_clusters, seed=None):
     """

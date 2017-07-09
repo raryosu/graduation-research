@@ -28,7 +28,6 @@
 \usepackage{layouts/lualatexsets/fonts}
 % Tikz関係
 \usepackage{tikz}
-\usepackage{layouts/others/gnuplot-lua-tikz}
 % 証明などのスタイル
 \usepackage{layouts/others/theorem}
 % セクションの表示スタイル
@@ -112,7 +111,6 @@ $\hat{l}(D)$はデータに関する対数尤度関数を最大化したもの�
 $p/2$はパラメータ空間の次元数であり，
 $R$はパラメータ数
 
-
 \begin{align}
   \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left(x_i - \mu_{(i)}\right)^2
 \end{align}
@@ -137,7 +135,22 @@ x-meansにおけるクラスタ数推定は以下のように行われる．
 
 \section{結果}
 \subsection{k-meansによるクラスタリング}
+\figref{img:kmeans-before}のデータをクラスタ数3としてクラスタリングした結果，
+\figref{img:kmeans-after}のような結果になった．
 
+なお，クラスタリングの打ち切り条件は，セントロイドの差が$1.0\times10^{-10}$以下のときとした．
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{img/k-means/before.pdf}
+		\caption{クラスタリング前のデータ}
+		\label{img:kmeans-before}
+	\end{center}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{img/k-means/after.pdf}
+		\caption{クラスタリング後のデータ}
+		\label{img:kmeans-after}
+	\end{center}
+\end{figure}
 \section{おわりに}
 
 \printbibliography[title=参考文献]
