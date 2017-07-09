@@ -1,4 +1,4 @@
-\documentclass[10pt,a4j,twocolumn]{ltjsarticle}
+\documentclass[9pt,a4j,twocolumn]{ltjsarticle}
 % 実験V報告書様式
 \usepackage{experiments_v}
 
@@ -43,7 +43,7 @@
 \def\thmref#1{Thm. \ref{#1}}
 \def\lmmref#1{Lemma. \ref{#1}}
 \def\figref#1{図\ref{#1}}
-\def\eqref#1{式(\ref{#1})}
+\def\eqref#1{(\ref{#1})式}
 \def\tableref#1{表\ref{#1}}
 
 %%% 著者情報 %%%
@@ -86,11 +86,12 @@
 しかし，どの情報量規準がどのようなデータに対し有効かは分かっていない．
 そこで本研究では，クラスタ数推定に用いる情報量規準として最適なものを数値実験を通し明らかにする．
 
-\section{実験の経過と手法}
-4月から6月は機械学習および確率統計の基礎学習およびPythonの勉強を行った．
-6月，7月にk-meansやx-meansの実装を行った．
-
-k-meansは，多次元空間上のデータ点集合について，各データが属するクラスタを同定する
+\section{実験の手法}
+% 4月から6月は機械学習および確率統計の基礎学習およびPythonの勉強を行った．
+% 6月，7月にk-meansやx-meansの実装を行った．
+% 
+\subsection{k-means}
+k-means\cite{macqueen1967some}は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する
 クラスタリング手法の一種である．
 具体的には，以下の2つの手順を繰り返すことで具体的にクラスタリングを行う．
 \begin{enumerate}
@@ -98,29 +99,35 @@ k-meansは，多次元空間上のデータ点集合について，各データ�
   \item 各データ点とデータ点の距離を求め，各データ点を最も近いセントロイドのクラスタに割り当てる．
 \end{enumerate}
 
-x-means\cite{pelleg2000x}は，k-meansの逐次繰り返しと，
-BIC(Bayesian Information Criterion; ベイズ情報量規準)による
-分割停止規準を用いることで，クラスタ数を自動的に決定することができる
-クラスタリング手法である．
+\subsection{x-means}
+x-means\cite{pelleg2000x}は，
+データ分布が混合等方Gauss分布から生成されたと想定してクラスタリングを行う手法である．
+k-meansの逐次繰り返しと，BIC(Bayesian Information Criterion; ベイズ情報量規準)による
+分割停止規準を用いることで，クラスタ数を自動的に決定する．
+
+データ$D$が与えられたとき，クラスタ$M$に含まれるデータ$x_i$を$K$個のクラスタに分割することを想定する．
+$p$変量Gauss分布\eqref{eq:gaussian-distribution}を仮定する．
 \begin{align}
-  \label{eq:bic}
-  {\mathrm BIC}(M_j) = \hat{l_j}(D) - \frac{p_j}{2}\ln R
+  \label{eq:gaussian-distribution}
+  \hat{P}(x_i) = \frac{R_{(i)}}{R}\frac{1}{\sqrt{2\pi}\hat{\sigma}^M}
+    \exp\left(-\frac{1}{2\hat{\sigma}^2}||x_i-\mu_{(i)}||^2\right)
 \end{align}
-
-$\hat{l}(D)$はデータに関する対数尤度関数を最大化したものである．
-$p/2$はパラメータ空間の次元数であり，
-$R$はパラメータ数
-
+ここで$\mu_{i}$は$p$次の平均ベクトルである．
+なお，等方Gauss分布からデータが生成されるとすると，分散は\eqref{eq:variance}により表される．
 \begin{align}
+  \label{eq:variance}
   \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left(x_i - \mu_{(i)}\right)^2
 \end{align}
-
+この時のBICを\eqref{eq:bic}により計算する．
 \begin{align}
-  \hat{P}(x_i) = \frac{R_{(i)}}{R}\frac{1}{\sqrt{2\pi}\hat{\sigma}^M}
-    \exp\left(-\frac{1}{2\hat{\sigma}^2}||x_i-\mu_{(i)}^2\right)
+  \label{eq:bic}
+  {\mathrm BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
 \end{align}
 
-x-meansにおけるクラスタ数推定は以下のように行われる．
+$p_j/2$はパラメータ空間の次元数であり，$R$はデータ数，
+$\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
+
+x-meansにおけるクラスタリングは以下のように行われる．
 \begin{enumerate}
   \item クラスタ数を小さな値(2や3)にしてk-meansを実行
   \item 各クラスタにおけるBICを算出する
@@ -130,8 +137,9 @@ x-meansにおけるクラスタ数推定は以下のように行われる．
   \item 2から5を繰り返し，変化がなくなればクラスタリングが完了する
 \end{enumerate}
 
-実験にはPython3.5を用い，TensorFlow1.2.1と呼ばれるオープンソースのライブラリを用いて
-実装した．
+\subsection{実験手法}
+実験にはPython3.5を用い，
+TensorFlow1.2.1と呼ばれるオープンソースのライブラリを用いてアルゴリズムを実装した．
 
 \section{結果}
 \subsection{k-meansによるクラスタリング}
