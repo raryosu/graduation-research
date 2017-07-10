@@ -1,4 +1,5 @@
 \documentclass[10pt,a4j,twocolumn]{ltjsarticle}
+
 % 実験V報告書様式
 \usepackage{experiments_v}
 
@@ -31,10 +32,6 @@
 \usepackage{layouts/others/theorem}
 % セクションの表示スタイル
 %\usepackage{layouts/others/section}
-% bibtex
-\usepackage[backend=bibtex, style=numeric]{biblatex}
-\addbibresource{lib.bib}
-
 % ベクトル表記
 \usepackage{bm}
 \def\vector#1{\mathop{\mathbf{#1}}}
@@ -90,7 +87,7 @@
 % 6月，7月にk-meansやx-meansの実装を行った．
 % 
 \subsection{k-means}
-k-means\cite{macqueen1967some}は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する
+$\mathrm{k-means}^{1)}$は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する
 クラスタリング手法の一種である．
 具体的には，以下の2つの手順を繰り返すことで具体的にクラスタリングを行う．
 \begin{enumerate}
@@ -99,10 +96,10 @@ k-means\cite{macqueen1967some}は，多次元空間上のデータ点集合に�
 \end{enumerate}
 
 \subsection{x-means}
-x-means\cite{pelleg2000x}は，
+$\mathrm{x-means}^{2)}$は，
 データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数の決定及び
 クラスタリングを行う手法である．
-k-meansの逐次繰り返しと，BIC\cite{schwarz1978estimating}(Bayesian Information Criterion; ベイズ情報量規準)による
+k-meansの逐次繰り返しと，$\mathrm{BIC}^{3)}$(Bayesian Information Criterion; ベイズ情報量規準)による
 分割停止規準を用いることで，クラスタ数を決定しクラスタリングを実行する．
 
 具体的にはは以下の手順で行われる．
@@ -115,7 +112,7 @@ k-meansの逐次繰り返しと，BIC\cite{schwarz1978estimating}(Bayesian Infor
   \item 2から5を繰り返し，変化がなくなればクラスタリングが完了する
 \end{enumerate}
 
-$d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_i})$を
+$d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_d})$を
 $K$個のクラスタに分割することを想定すると，
 $d$変量等方Gauss分布\eqref{eq:gaussian-distribution}を定義できる．
 \begin{align}
@@ -130,9 +127,7 @@ $d$変量等方Gauss分布\eqref{eq:gaussian-distribution}を定義できる．
   \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left(x_i - \mu_{(i)}\right)^2
 \end{align}
 
-この時，事後確率$Pr[M_j \mid {\bm D}]$\footnote{[私的メモ]${\bm D}$を仮定した時$M_j$の事後確率}を
-モデルの評価に用いたい．
-そこで，事後確率を近似し正規化したBICを用いる．
+このときのモデル$M_j$の評価にBICを用いる．
 \begin{align}
   \label{eq:bic}
   \mathrm{BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
@@ -165,6 +160,19 @@ TensorFlow1.2.1と呼ばれるオープンソースのライブラリを用い�
 \end{figure}
 \section{おわりに}
 
-\printbibliography[title=参考文献]
+\section{参考文献}
+\begin{enumerate}
+\renewcommand{\labelenumi}{\arabic{enumi})}
+  \item James MacQueen et al.: 
+    Some methods for classification and analysis of multivariate observations,
+    Proceedings of the fifth Berkeley symposium on mathematical statistics and probability, 
+    Vol. 1, No. 14, pp. 281--297 (1967).
+  \item Dan Pelleg, Andrew W Moore, et al.:
+    Xmeans: Extending K-means with Efficient Estimation of the Number of Clusters.,
+    ICML, Vol. 1, pp. 727--734 (2000).
+  \item Gideon Schwarz et al.:
+    Estimating the dimension of a model,
+    The annals of statistics, Vol. 6, No.2, pp. 461--464 (1978).
+\end{enumerate}
 
 \end{document}
