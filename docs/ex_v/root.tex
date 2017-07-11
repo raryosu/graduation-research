@@ -127,7 +127,7 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 等方Gauss分布を考えると分散$\sigma^2$は\eqref{eq:variance}により表される．
 \begin{align}
   \label{eq:variance}
-  \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left(x_i - \mu_{(i)}\right)^2
+  \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left({\bm x}_i-{\bm \mu}_{(i)}\right)^2
 \end{align}
 
 すると，確率は次で表される．
@@ -141,8 +141,8 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 したがって対数尤度関数は
 \begin{align}
   \label{eq:log-likelihood}
-  l(D) &= \log \prod_i P(x_i) \\
-  &= \sum_i \left( \log\frac{1}{\sqrt{2\pi}\sigma^M}-\frac{1}{2\sigma^2}||x_i - \mu_{(i)}||^2 + \log\frac{R_{(i)}}{R} \right)
+  l(D) &= \log \prod_i P(x_i) \\\nonumber
+  &= \sum_i \left( \log\frac{1}{\sqrt{2\pi}\sigma^M}-\frac{1}{2\sigma^2}||{\bm x}_i-{\bm \mu}_{(i)}||^2 + \log\frac{R_{(i)}}{R} \right)
 \end{align}
 となる．
 
@@ -150,7 +150,7 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 クラスタ$n$のデータ数を$R_n$と表記すると，\eqref{eq:log-likelihood}は以下で表される．
 \begin{align}
   \begin{split}
-    \hat{l}(D_n) &= -\frac{R_n}{2}\log(2\pi) - \frac{R_n \cdot M}{2}\log(\hat{\sigma}^2) -
+    \hat{l}(D_n) &= -\frac{R_n}{2}\log(2\pi) - \frac{R_n \cdot d}{2}\log(\hat{\sigma}^2) -
     \frac{R_n - K}{2}\\ &
     + R_n\log R_n - R_n \log R
   \end{split}
