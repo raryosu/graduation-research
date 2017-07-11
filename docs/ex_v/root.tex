@@ -113,28 +113,48 @@ k-meansの逐次繰り返しと，$\mathrm{BIC}^{3)}$(Bayesian Information Crite
 \end{enumerate}
 
 $d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_d})$を
-$K$個のクラスタに分割することを想定すると，
-$d$変量等方Gauss分布\eqref{eq:gaussian-distribution}を定義できる．
+$K$個のクラスタに分割することを考える．
+
+モデル$M_j$の評価に用いるBICは以下で与えられる．
+\begin{align}
+  \label{eq:bic}
+  \mathrm{BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
+\end{align}
+
+$p_j$はモデル$M_j$のパラメータ数であり，$R$は$M_j$のデータ数，
+$\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
+
+等方Gauss分布を考えると分散$\sigma^2$は\eqref{eq:variance}により表される．
+\begin{align}
+  \label{eq:variance}
+  \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left(x_i - \mu_{(i)}\right)^2
+\end{align}
+
+すると，確率は次で表される．
 \begin{align}
   \label{eq:gaussian-distribution}
   \hat{P}(x_i) = \frac{R_{(i)}}{R}\frac{1}{\sqrt{2\pi}\hat{\sigma}^d}
     \exp\left(-\frac{1}{2\hat{\sigma}^2}||{\bm x}_i-{\bm \mu}_{(i)}||^2\right)
 \end{align}
 ここで${\bm \mu}_{i}$は$d$次元の平均ベクトルである．
-なお，分散$\sigma^2$は\eqref{eq:variance}により表される．
-\begin{align}
-  \label{eq:variance}
-  \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left(x_i - \mu_{(i)}\right)^2
-\end{align}
 
-このときのモデル$M_j$の評価にBICを用いる．
+したがって対数尤度関数は
 \begin{align}
-  \label{eq:bic}
-  \mathrm{BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
+  \label{eq:log-likelihood}
+  l(D) &= \log \prod_i P(x_i) \\
+  &= \sum_i \left( \log\frac{1}{\sqrt{2\pi}\sigma^M}-frac{1}{2\sigma^2}||x_i - \mu_{(i)}||^2 + \log\frac{R_{(i)}}{R} \right)
 \end{align}
+となる．
 
-$p_j/2$はパラメータ空間の次元数であり，$R$はデータ数，
-$\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
+ここでクラスタ$n (1 < n < K)$のデータ$D_n$に着目する．
+クラスタ$n$のデータ数を$R_n$と表記すると，\eqref{eq:log-likelihood}は以下で表される．
+\begin{align}
+  \begin{split}
+    \hat{l}(D_n) &= -\frac{R_n}{2}\log(2\pi) - \frac{R_n \cdot M}{2}\log(\hat{\sigma}^2) -
+    \frac{R_n - K}{2}\\ &
+    + R_n\log R_n - R_n \log R
+  \end{split}
+\end{align}
 
 \subsection{実験環境}
 実験にはPython3.5を用い，
