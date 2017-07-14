@@ -144,11 +144,15 @@ class XMeans:
             k_means = KMeans(2, **self.k_means_args).fit(cluster.data)
             c1, c2 = self.Cluster.build(cluster.data, k_means, cluster.index)
 
-            # return log_likelihood - (n_clusters/2) * math.log(sample.size)
-            # bic = -2 * (cluster.size * np.log(alpha) + c1.log_likelihood() + c2.log_likelihood()) + 2 * cluster.df * np.log(cluster.size)
-            bic = (c1.log_likelihood() + c2.log_likelihood()) + (cluster.size / 2) * np.log(cluster.size)
+            # Den Pelleg (2000)
+            bic = (c1.log_likelihood() + c2.log_likelihood()) - cluster.df/2 * np.log(cluster.size)
 
-            if bic > cluster.bic():
+            # Ishioka (2000)
+            #beta = np.linalg.norm(c1.center - c2.center) / np.sqrt(np.linalg.det(c1.cov) + np.linalg.det(c2.cov))
+            #alpha = 0.5 / stats.norm.cdf(beta)
+            #bic = (cluster.size * np.log(alpha) + c1.log_likelihood() + c2.log_likelihood()) - cluster.df/2 * np.log(cluster.size)
+
+            if bic < cluster.bic():
                 self.__recursively_split([c1, c2])
             else:
                 self.__clusters.append(cluster)
@@ -174,12 +178,13 @@ class XMeans:
             self.df = self.data.shape[1] * (self.data.shape[1] + 3) / 2
             self.center = k_means.cluster_centers_[label]
             self.cov = np.cov(self.data.T)
+            # self.cov = 1/(self.data.size - 2) * (np.linalg.norm(self.data - np.expand_dims(np.mean(self.data, axis=1), axis=1)))
 
         def log_likelihood(self):
             return sum(stats.multivariate_normal.logpdf(x, self.center, self.cov) for x in self.data)
 
         def bic(self):
-            return -2 * self.log_likelihood() + self.df * np.log(self.size)
+            return self.log_likelihood() - self.df/2 * np.log(self.size)
 
 def x_means(samples, threshold, seed=None):
     """
