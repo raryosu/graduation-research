@@ -16,9 +16,6 @@ from scipy import stats
 from sklearn.cluster import KMeans
 
 class XMeans:
-    """
-    x-means法を行うクラス
-    """
 
     def __init__(self, k_init = 2, **k_means_args):
         self.k_init = k_init
@@ -48,8 +45,6 @@ class XMeans:
 
             k_means = KMeans(2, **self.k_means_args).fit(cluster.data)
             c1, c2 = self.Cluster.build(cluster.data, k_means, cluster.index)
-            print(c1.data)
-            print(c2.data)
 
             # Den Pelleg (2000)
             bic = (c1.log_likelihood() + c2.log_likelihood()) - cluster.df/2 * np.log(cluster.size)
@@ -73,21 +68,26 @@ class XMeans:
             return tuple(cls(X, index, k_means, label) for label in labels)
 
         def __init__(self, X, index, k_means, label):
+            self.X = X
+            self.label = label
             self.data = X[k_means.labels_ == label]
             self.index = index[k_means.labels_ == label]
             self.size = self.data.shape[0]
             self.df = self.data.shape[1]
             self.center = k_means.cluster_centers_[label]
-            self.cov = np.cov(self.data.T)
+            # self.cov = np.cov(self.data.T)
             # 分散を対角行列に
-            # self.cov = np.diag(np.linalg.norm(np.array(self.data - np.mean(self.data, axis=0)), axis=0) ** 2)
+            self.cov = np.diag(1/(self.size) * np.linalg.norm(np.array(self.data - np.mean(self.data, axis=0)), axis=0) ** 2)
 
         def log_likelihood(self):
-            return sum(stats.multivariate_normal.logpdf(x, self.center, self.cov) for x in self.data)
-            # return sum((x.size * (np.log(2 * np.pi)/2 - self.df/2 * np.log(np.linalg.det(self.cov))) - (x.size - self.center.size) / 2) for x in self.data)
+            # return sum(np.log(self.size / self.X.shape[0]) * stats.multivariate_normal.logpdf(x, self.center, self.cov) for x in self.data)
+            # return sum(stats.multivariate_normal.logpdf(x, self.center, self.cov) for x in self.data)
+            # return (self.size/2) * np.log(2 * np.pi) - self.size/2 * self.df * np.log(np.linalg.det(self.cov)) - (self.size - self.center.size) / 2 + self.size * np.log(self.size) - self.data.size * np.log(self.X.shape[0])
+            return (self.size/2) * np.log(2 * np.pi) - self.size/2 * self.X.shape[0] * np.log(np.linalg.det(self.cov)) - (self.size - self.center.size) / 2
 
         def bic(self):
-            return self.log_likelihood() - self.df/2 * np.log(self.size)
+            return self.log_likelihood() - self.df / 2 * np.log(self.size)
+            # return self.log_likelihood() - self.df * (self.df + 3)/4 * np.log(self.size)
 
 def plot_samples(all_samples, save=False, name='before'):
     import matplotlib
