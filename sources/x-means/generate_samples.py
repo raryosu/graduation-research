@@ -7,7 +7,6 @@ Generate and plot sample data
 import tensorflow as tf
 import numpy as np
 from sklearn import datasets
-# from functions import *
 from func import *
 
 n_features = 2
