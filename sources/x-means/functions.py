@@ -25,9 +25,27 @@ class XMeans:
         self.__clusters = [] 
 
         clusters = self.Cluster.build(X, KMeans(self.k_init, **self.k_means_args).fit(X))
-        self.__recursively_split(clusters)
+        # self.__recursively_split(clusters)
+        while True:
+            clusters = self.Cluster.build(samples, KMeans(self.k_init, **self.k_means_args).fit(samples))
+            for k, cluster in enumerate(clusters):
+                if cluster.size <= 3:
+                    self.__clusters.append(cluster)
+                    continue
+    
+                k_means = KMeans(2, **self.k_means_args).fit(cluster.data)
+                c1, c2 = self.Cluster.build(cluster.data, k_means, cluster.index)
+    
+                # Den Pelleg (2000)
+                bic = (c1.log_likelihood() + c2.log_likelihood()) - cluster.df/2.0 * np.log(cluster.size)
+    
+                if bic > cluster.bic():
+                    self.__recursively_split([c1, c2])
+                else:
+                    self.__clusters.append(cluster)
+                
 
-        self.labels_ = np.empty(X.shape[0], dtype = np.intp)
+        self.labels_ = np.empty(X.shape[0], dtype = np.inp)
         for i, c in enumerate(self.__clusters):
             self.labels_[c.index] = i
 
@@ -47,11 +65,7 @@ class XMeans:
             c1, c2 = self.Cluster.build(cluster.data, k_means, cluster.index)
 
             # Den Pelleg (2000)
-            bic = (c1.log_likelihood() + c2.log_likelihood()) - cluster.df/2 * np.log(cluster.size)
-            # Ishioka (2000)
-            # beta = np.linalg.norm(c1.center - c2.center) / np.sqrt(np.linalg.det(c1.cov) + np.linalg.det(c2.cov))
-            # alpha = 0.5 / stats.norm.cdf(beta)
-            # bic = (cluster.size * np.log(alpha) + c1.log_likelihood() + c2.log_likelihood()) - cluster.df/2 * np.log(cluster.size)
+            bic = (c1.log_likelihood() + c2.log_likelihood()) - cluster.df/2.0 * np.log(cluster.size)
 
             if bic > cluster.bic():
                 self.__recursively_split([c1, c2])
@@ -80,14 +94,29 @@ class XMeans:
             self.cov = np.diag(1/(self.size) * np.linalg.norm(np.array(self.data - np.mean(self.data, axis=0)), axis=0) ** 2)
 
         def log_likelihood(self):
-            # return sum(np.log(self.size / self.X.shape[0]) * stats.multivariate_normal.logpdf(x, self.center, self.cov) for x in self.data)
-            # return sum(stats.multivariate_normal.logpdf(x, self.center, self.cov) for x in self.data)
-            # return (self.size/2) * np.log(2 * np.pi) - self.size/2 * self.df * np.log(np.linalg.det(self.cov)) - (self.size - self.center.size) / 2 + self.size * np.log(self.size) - self.data.size * np.log(self.X.shape[0])
-            return (self.size/2) * np.log(2 * np.pi) - self.size/2 * self.X.shape[0] * np.log(np.linalg.det(self.cov)) - (self.size - self.center.size) / 2
+            """
+            対数尤度関数を返す
+            """
+            num_points = sum(len(cluster) for cluster in self.clusters)
+            num_dims = self.clusters[0][0].shape[0]
+
+            # R: num_points, M: num_dims
+            ll = 0
+            for k, cluster in enumerate(X.clusters):
+                Rn = len(cluster)
+                t1 = Rn / 2.0 * np.log(2.0 * np.pi)
+                variance = cluster_variance(num_points, clusters, centroids)
+                t2 = (Rn * num_dims) / 2.0 * np.log(variance)
+                t3 = (Rn - 1.0) / 2.0
+                t4 = Rn * np.log(Rn)
+                t5 = Rn * np.log(num_points)
+                ll += - t1 - t2 - t3 + t4 - t5
+            print(ll)
+            return ll
+
 
         def bic(self):
-            return self.log_likelihood() - self.df / 2 * np.log(self.size)
-            # return self.log_likelihood() - self.df * (self.df + 3)/4 * np.log(self.size)
+            return self.log_likelihood() - self.df / 2.0 * np.log(self.size)
 
 def plot_samples(all_samples, save=False, name='before'):
     import matplotlib
