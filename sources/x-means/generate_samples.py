@@ -12,7 +12,7 @@ from func import *
 n_features = 2
 n_clusters = 5
 n_samples_per_cluster = 500
-seed = None
+seed = 700
 embiggen_factor = 70
 threshold = 0.1e-9
 

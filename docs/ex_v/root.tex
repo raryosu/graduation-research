@@ -35,6 +35,9 @@
 % ベクトル表記
 \usepackage{bm}
 \def\vector#1{\mathop{\mathbf{#1}}}
+% 疑似アルゴリズム
+\usepackage{algorithm}
+\usepackage{algorithmic}
 % 画像・図表等のrefコマンド
 \def\thmref#1{Thm. \ref{#1}}
 \def\lmmref#1{Lemma. \ref{#1}}
@@ -82,14 +85,19 @@
 しかし，どの情報量規準がどのようなデータに対し有効かは分かっていない．
 そこで本研究では，クラスタ数推定に用いる情報量規準として最適なものを数値実験を通し明らかにする．
 
+\section{実験の経過}
+4月から6月は文献により，機械学習および確率統計の基礎学習およびPythonの勉強を行った．
+6月，7月にk-meansやx-meansと呼ばれるクラスタリング手法の実装を行った．
+
+クラスタリングとは，データの集まりをデータ間の類似度に従って、
+いつかのクラスタに分けることである．
+本研究では，非階層的クラスタリング手法であるk-meansやx-meansを用いる．
+
 \section{実験の手法}
-% 4月から6月は機械学習および確率統計の基礎学習およびPythonの勉強を行った．
-% 6月，7月にk-meansやx-meansの実装を行った．
-% 
 \subsection{k-means}
 $\mathrm{k-means}^{1)}$は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する
 クラスタリング手法の一種である．
-具体的には，以下の2つの手順を繰り返すことで具体的にクラスタリングを行う．
+具体的には，以下の2つの手順を繰り返すことでクラスタリングを行う．
 \begin{enumerate}
   \item 各データに割り当てられているクラスタのセントロイドを求める
   \item 各データ点とデータ点の距離を求め，各データ点を最も近いセントロイドのクラスタに割り当てる．
@@ -97,19 +105,44 @@ $\mathrm{k-means}^{1)}$は，多次元空間上のデータ点集合について
 
 \subsection{x-means}
 $\mathrm{x-means}^{2)}$は，
-データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数の決定及び
+データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
 クラスタリングを行う手法である．
 k-meansの逐次繰り返しと，$\mathrm{BIC}^{3)}$(Bayesian Information Criterion; ベイズ情報量規準)による
-分割停止規準を用いることで，クラスタ数を決定しクラスタリングを実行する．
+分割停止規準を用いることで，クラスタ数を推定しクラスタリングを実行する．
 
-具体的にはは以下の手順で行われる．
+具体的には以下の手順で行われる．
+% \begin{algorithm}
+%   \caption{x-means}
+%   \label{alg:x-means}
+%   \begin{algorithmic}
+%     \REQUIRE $n \geq 0 \vee x \neq 0$
+%     \ENSURE $y = x^n$
+%     \STATE $y \Leftarrow 1$
+%     \IF{$n < 0$}
+%     \STATE $X \Leftarrow 1 / x$
+%     \STATE $N \Leftarrow -n$
+%     \ELSE
+%     \STATE $X \Leftarrow x$
+%     \STATE $N \Leftarrow n$
+%     \ENDIF
+%     \WHILE{$N \neq 0$}
+%     \IF{$N$ is even}
+%     \STATE $X \Leftarrow X \times X$
+%     \STATE $N \Leftarrow N / 2$
+%     \ELSE[$N$ is odd]
+%     \STATE $y \Leftarrow y \times X$
+%     \STATE $N \Leftarrow N - 1$
+%     \ENDIF
+%     \ENDWHILE
+%   \end{algorithmic}
+% \end{algorithm}
 \begin{enumerate}
-  \item クラスタ数を小さなにしてk-meansを実行
-  \item 各クラスタにおけるBICを算出する
+  \item クラスタ数を小さくしてk-meansを実行(通常は$k=2$)
+  \item 各クラスタにおけるBICを算出
   \item それぞれのクラスタのセントロイドを2つに分割し，k-meansを再度実行
   \item 分割したそれぞれのクラスタにおけるBICを算出
-  \item 分割前と後のBICを比較し，BICが大きくなっていれば採用する
-  \item 2から5を繰り返し，変化がなくなればクラスタリングが完了する
+  \item 分割前と後のBICを比較し，BICが大きくなっていれば，セントロイドの分割を受容
+  \item 2から5を繰り返し，クラスタ数に変化がなくなればクラスタリングが完了
 \end{enumerate}
 
 $d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_d})$を
@@ -158,27 +191,50 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 
 \subsection{実験環境}
 実験にはPython3.5を用い，
-TensorFlow1.2.1と呼ばれるオープンソースのライブラリを用いてアルゴリズムを実装した．
+機械学習のライブラリとしてTensorFlowを用いてアルゴリズムを実装した．
 
-\section{結果}
+\section{実験結果}
 \subsection{k-meansによるクラスタリング}
-\figref{img:kmeans-before}のデータをクラスタ数3としてクラスタリングした結果，
+\figref{img:kmeans-before}のデータをクラスタ数5としてクラスタリングした結果，
 \figref{img:kmeans-after}のような結果になった．
 
-なお，クラスタリングの打ち切り条件は，セントロイドの差が$1.0\times10^{-10}$以下のときとした．
+% なお，クラスタリングの打ち切り条件は，セントロイドの差が$1.0\times10^{-10}$以下のときとした．
 \begin{figure}[htbp]
-	\begin{center}
-		\includegraphics[width=0.8\linewidth]{img/k-means/before.pdf}
-		\caption{クラスタリング前のデータ}
-		\label{img:kmeans-before}
-	\end{center}
-	\begin{center}
-		\includegraphics[width=0.8\linewidth]{img/k-means/after.pdf}
-		\caption{クラスタリング後のデータ}
-		\label{img:kmeans-after}
-	\end{center}
+  \begin{center}
+    \includegraphics[width=0.8\linewidth]{img/k-means/before.pdf}
+    \caption{クラスタリング前のデータ}
+    \label{img:kmeans-before}
+  \end{center}
 \end{figure}
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.8\linewidth]{img/k-means/after.pdf}
+    \caption{k-meansによるクラスタリング結果}
+    \label{img:kmeans-after}
+  \end{center}
+\end{figure}
+
+\subsection{x-meansによるクラスタリング}
+k-meansと同様に，クラスタ数が5つのデータを生成し，x-meansにより分割した結果，
+\figref{img:xmeans-after}のようになった．
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.8\linewidth]{img/x-means/after.pdf}
+    \caption{x-meansによるクラスタリング結果}
+    \label{img:xmeans-after}
+  \end{center}
+\end{figure}
+
+クラスタ数を5つとして適切にクラスタリングを行っていることがわかる．
+
 \section{おわりに}
+本実験では，機械学習の基礎学習及びk-means, x-meansの実装を行った．
+
+先に示した実験結果より，x-meansは適切にクラスタ数を推定し，
+クラスタリングを行うことが確認された．
+現在は分割停止規準としてBICを用いているが，
+今後様々な情報量規準を用いて実験を行い，最適な情報量規準を明らかにしたい．
+クラスタリング精度について検証を行っていきたい．
 
 \section{参考文献}
 \begin{enumerate}

@@ -10,7 +10,7 @@ from sklearn import datasets
 from functions import *
 
 n_features = 2
-n_clusters = 3
+n_clusters = 5
 n_samples_per_cluster = 1000
 seed = 700
 embiggen_factor = 70
@@ -18,9 +18,9 @@ threshold = 0.1e-9
 
 centers = np.random.randint(-5, 5, (n_clusters, 2))
 samples, labels = datasets.make_blobs(
-        n_samples = n_samples_per_cluster,
-        centers = centers,
-        random_state=seed
+        n_samples = n_samples_per_cluster * n_clusters,
+        centers = n_clusters,
+        random_state = seed
         )
 samples = tf.Variable(samples)
 labels = tf.Variable(labels)
