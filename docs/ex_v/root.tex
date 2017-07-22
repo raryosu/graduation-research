@@ -84,25 +84,25 @@
 その情報量基準は多くの研究者により様々なものが提案されている．
 しかし，どの情報量規準がどのようなデータに対し有効かは分かっていない．
 そこで本研究では，クラスタ数推定に用いる情報量規準として最適なものを数値実験を通し明らかにする．
-本研究では，クラスタ数推定の手法としてx-meansを用いる．
+本研究では，クラスタ数推定の手法としてX-meansを用いる．
 
 \section{実験の経過}
 4月から6月は機械学習と確率統計の基礎学習およびPythonの勉強を行った．
-6月，7月にクラスタリング手法であるk-meansとx-meansの実装を行った．
+6月，7月にクラスタリング手法であるK-meansとX-meansの実装を行った．
 
 \section{実験の手法}
-\subsection{k-means}
-$\mathrm{k-means}^{1)}$は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する最もよく使われるクラスタリング手法の一つである．
-k-meansは，以下の2つの手順を繰り返すことでクラスタリングを行う．
+\subsection{K-means}
+K-means$^{1)}$は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する最もよく使われるクラスタリング手法の一つである．
+K-meansは，以下の2つの手順を繰り返すことでクラスタリングを行う．
 \begin{enumerate}
   \item 各データ点とデータ点の距離を求め，各データ点を最も近いセントロイドのクラスタに割り当てる．
   \item クラスタに所属するデータの平均を新たなセントロイドとする．
 \end{enumerate}
 
-\subsection{x-means}
-x-means$^{2)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
+\subsection{X-means}
+X-means$^{2)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
 クラスタリングを行う手法である．
-k-meansの逐次繰り返しと，$\mathrm{BIC}^{3)}$ (Bayesian Information Criterion; ベイズ情報量規準) による
+K-meansの逐次繰り返しと，BIC$^{3)}$ (Bayesian Information Criterion; ベイズ情報量規準) による
 分割停止規準を用いることで，クラスタ数を推定しクラスタリングを実行する．
 
 具体的には以下の手順で行われる．
@@ -133,18 +133,18 @@ k-meansの逐次繰り返しと，$\mathrm{BIC}^{3)}$ (Bayesian Information Crit
 % \end{algorithm}
 \begin{enumerate}
     \item クラスタ数$k$を初期化する (通常は$k=2$) ．
-    \item k-meansを実行する．
+    \item K-meansを実行する．
     \item 次の処理を$j=1$から$j=k$まで繰り返す．
     \begin{enumerate}
         \item クラスタ$j$のBIC$_j$を計算する．
-        \item クラスタ$j$に所属するデータに対し，クラスタ数2としてk-meansを行う．
+        \item クラスタ$j$に所属するデータに対し，クラスタ数2としてK-meansを行う．
         \item クラスタ数2としてクラスタリングした結果に対しBIC'$_j$を計算する．
         \item BIC$_j$とBIC'$_j$を比較し，BIC'$_j$が大きければクラスタ数$k$に1を足す．
     \end{enumerate}
     \item 前の処理で$k$が増加した場合は処理2へ戻る．そうでない場合は終了する．
 \end{enumerate}
 
-x-meansで用いるBICは次のように求められる．
+X-meansで用いるBICは次のように求められる．
 $d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_d})$を
 $K$個のクラスタに分割することを考える．
 モデル$M_j$の評価に用いるBICは以下で与えられる．
@@ -189,7 +189,7 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 機械学習のライブラリとしてTensorFlowを用いてアルゴリズムを実装した．
 
 \section{実験結果}
-\subsection{k-meansによるクラスタリング}
+\subsection{K-meansによるクラスタリング}
 \figref{img:kmeans-before}のデータをクラスタ数5としてクラスタリングした結果，
 \figref{img:kmeans-after}のような結果になった．
 
@@ -204,27 +204,27 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=0.8\linewidth]{img/k-means/after.pdf}
-    \caption{k-meansによるクラスタリング結果}
+    \caption{K-meansによるクラスタリング結果}
     \label{img:kmeans-after}
   \end{center}
 \end{figure}
 
-\subsection{x-meansによるクラスタリング}
-k-meansと同様に，クラスタ数が5つのデータを生成し，x-meansにより分割した結果，
+\subsection{X-meansによるクラスタリング}
+K-meansと同様に，クラスタ数が5つのデータを生成し，X-meansにより分割した結果，
 \figref{img:xmeans-after}のようになった．
 図より，クラスタ数を5つとして適切にクラスタリングを行っていることがわかる．
 
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=0.8\linewidth]{img/x-means/after.pdf}
-    \caption{x-meansによるクラスタリング結果}
+    \caption{X-meansによるクラスタリング結果}
     \label{img:xmeans-after}
   \end{center}
 \end{figure}
 
 \section{おわりに}
-本実験では，機械学習の基礎学習及びk-means, x-meansの実装を行った．
-先に示した実験結果より，x-meansは適切にクラスタ数を推定し，
+本実験では，機械学習の基礎学習及びK-means, X-meansの実装を行った．
+先に示した実験結果より，X-meansは適切にクラスタ数を推定し，
 クラスタリングを行うことが確認された．
 現在は分割停止規準としてBICを用いているが，
 今後様々な情報量規準を用いて実験を行い，最適な情報量規準を明らかにしたい．
