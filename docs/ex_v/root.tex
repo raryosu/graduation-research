@@ -55,7 +55,7 @@
 % 指導教員
 \adviser{藤田 一寿}
 % 日付
-\date{\today}
+\date{2017年8月4日}
 
 \hypersetup{%
   colorlinks=true,%
@@ -174,7 +174,7 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
   &= \sum_i \left( \log\frac{1}{\sqrt{2\pi}\sigma^d}-\frac{1}{2\sigma^2}||{\bm x}_i-{\bm \mu}_{(i)}||^2 + \log\frac{R_{(i)}}{R} \right)
 \end{align}
 となる．
-ここでクラスタ$n (1 < n < K)$のデータ$D_n$に着目する．
+ここでクラスタ$n (1 \leq n \leq K)$のデータ$D_n$に着目する．
 クラスタ$n$のデータ数を$R_n$と表記すると，\eqref{eq:log-likelihood}は以下で表される．
 \begin{align}
   \begin{split}
@@ -193,7 +193,6 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 \figref{img:kmeans-before}のデータをクラスタ数5としてクラスタリングした結果，
 \figref{img:kmeans-after}のような結果になった．
 
-% なお，クラスタリングの打ち切り条件は，セントロイドの差が$1.0\times10^{-10}$以下のときとした．
 \begin{figure}[htbp]
   \begin{center}
     \includegraphics[width=0.8\linewidth]{img/k-means/before.pdf}
@@ -244,5 +243,4 @@ K-meansと同様に，クラスタ数が5つのデータを生成し，X-means�
     Estimating the dimension of a model,
     The annals of statistics, Vol. 6, No.2, pp. 461--464 (1978).
 \end{enumerate}
-
 \end{document}
