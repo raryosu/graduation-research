@@ -1,0 +1,40 @@
+% 定義とかの表示設定
+% 2017/05/12 Hagihara Ryosuke
+
+\usepackage{atbegshi}
+\usepackage{framed}
+\usepackage[framed,thmmarks,hyperref]{ntheorem}
+\colorlet{wcyn}{cyan!100}
+\def\theoremframecommand{\colorbox{wcyn}} 
+\theorembodyfont{\normalfont}
+\theoremstyle{break}
+\theoremseparator{. }
+\theoremprework{\bigskip\hrule height 5pt}
+\theorempostwork{\hrule\bigskip}
+\newtheorem{dfn}{Definition}
+
+%\colorlet{bcyn}{cyan!50}
+%\def\theoremframecommand{\colorbox{bcyn}} 
+\theoremstyle{break}
+\newtheorem{Theorem}{Theorem}
+\theoremclass{Theorem}
+\colorlet{bcyn}{cyan!100}
+\def\theoremframecommand{\colorbox{bcyn}} 
+\newframedtheorem{thm}[Theorem]{Theorem}
+
+\colorlet{wgry}{gray!25}
+\def\theoremframecommand{\colorbox{wgry}} 
+\theoremstyle{break}
+\newtheorem{Lemma}{Lemma}
+\newshadedtheorem{lmm}[Lemma]{Lemma}
+
+\colorlet{wcyn}{cyan!8}
+\def\theoremframecommand{\colorbox{wcyn}} 
+\theoremstyle{break}
+\newtheorem{Corollary}{Corollary}
+\newshadedtheorem{cor}[Corollary]{Corollary}
+
+\theoremstyle{nonumbermarginbreak}
+\theoremseparator{}
+\theoremsymbol{\vrule width 6pt}
+\newtheorem{prf}{(Proof)}
