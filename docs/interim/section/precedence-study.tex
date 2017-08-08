@@ -1,5 +1,7 @@
 \section{先行研究}
 
+\subsection{クラスタリングとは}
+
 \subsection{K-means}
 K-means$^{1)}$は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する最もよく使われるクラスタリング手法の一つである．
 K-meansは，以下の2つの手順を繰り返すことでクラスタリングを行う．
@@ -8,65 +10,14 @@ K-meansは，以下の2つの手順を繰り返すことでクラスタリング
   \item クラスタに所属するデータの平均を新たなセントロイドとする．
 \end{enumerate}
 
-\subsection{最尤推定}
-\subsection{情報量規準}
+\begin{algorithm}
+  \caption{K-means Algorithm}
+  \label{alg:k-means}
+  \begin{algorithmic}
+    \REQUIRE
+      $N$: データ数, $K$: クラスタ数, $\lambda$: 収束条件,
+      ${\bm X} = ({\bm x_0}, {\bm x_1}, \cdots, {\bm x_N})$
 
-\subsection{X-means}
-X-means$^{2)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
-クラスタリングを行う手法である．
-K-meansの逐次繰り返しと，BIC$^{3)}$ (Bayesian Information Criterion; ベイズ情報量規準) による
-分割停止規準を用いることで，クラスタ数を推定しクラスタリングを実行する．
-
-具体的には以下の手順で行われる．
-\begin{enumerate}
-    \item クラスタ数$k$を初期化する (通常は$k=2$) ．
-    \item K-meansを実行する．
-    \item 次の処理を$j=1$から$j=k$まで繰り返す．
-    \begin{enumerate}
-        \item クラスタ$j$のBIC$_j$を計算する．
-        \item クラスタ$j$に所属するデータに対し，クラスタ数2としてK-meansを行う．
-        \item クラスタ数2としてクラスタリングした結果に対しBIC'$_j$を計算する．
-        \item BIC$_j$とBIC'$_j$を比較し，BIC'$_j$が大きければクラスタ数$k$に1を足す．
-    \end{enumerate}
-    \item 前の処理で$k$が増加した場合は処理2へ戻る．そうでない場合は終了する．
-\end{enumerate}
-
-X-meansで用いるBICは次のように求められる．
-$d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_d})$を
-$K$個のクラスタに分割することを考える．
-モデル$M_j$の評価に用いるBICは以下で与えられる．
-\begin{align}
-  \label{eq:bic}
-  \mathrm{BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
-\end{align}
-$p_j$はモデル$M_j$のパラメータ数であり，$R$は$M_j$のデータ数，
-$\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
-
-等方Gauss分布を考えると分散$\sigma^2$は\eqref{eq:variance}により表される．
-\begin{align}
-  \label{eq:variance}
-  \hat{\sigma}^2 = \frac{1}{R-K}\sum_i\left({\bm x}_i-{\bm \mu}_{(i)}\right)^2
-\end{align}
-すると，確率は次で表される．
-\begin{align}
-  \label{eq:gaussian-distribution}
-  \hat{P}(x_i) = \frac{R_{(i)}}{R}\frac{1}{\sqrt{2\pi}\hat{\sigma}^d}
-    \exp\left(-\frac{1}{2\hat{\sigma}^2}||{\bm x}_i-{\bm \mu}_{(i)}||^2\right)
-\end{align}
-ここで${\bm \mu}_{i}$は$d$次元の平均ベクトルである．
-したがって対数尤度関数は
-\begin{align}
-  \label{eq:log-likelihood}
-  l(D) &= \log \prod_i P(x_i) \\\nonumber
-  &= \sum_i \left( \log\frac{1}{\sqrt{2\pi}\sigma^d}-\frac{1}{2\sigma^2}||{\bm x}_i-{\bm \mu}_{(i)}||^2 + \log\frac{R_{(i)}}{R} \right)
-\end{align}
-となる．
-ここでクラスタ$n (1 < n < K)$のデータ$D_n$に着目する．
-クラスタ$n$のデータ数を$R_n$と表記すると，\eqref{eq:log-likelihood}は以下で表される．
-\begin{align}
-  \begin{split}
-    \hat{l}(D_n) &= -\frac{R_n}{2}\log(2\pi) - \frac{R_n \cdot d}{2}\log(\hat{\sigma}^2) -
-    \frac{R_n - K}{2}\\ &
-    + R_n\log R_n - R_n \log R
-  \end{split}
-\end{align}
+    $K$個のセントロイドとしてランダムに配置する．
+  \end{algorithmic}
+\end{algorithm}
