@@ -13,7 +13,7 @@
 \begin{align}
   \label{eq:k-l-div}
   I(g \mid f) &= E_X \log \left\{\frac{g(X)}{f(X)}\right\}\\\nonumber
-              &= \int^{\infty}_{-\infty}\log\left\{\frac{g(x)}{f(x)}\right\}
+              &= \int^{\infty}_{-\infty}\log\left\{\frac{g(x)}{f(x)}\right\}g(x)dx
 \end{align}
 ただし，$\log$は自然対数で，注記がない限り一貫してこの意味で用いる．
 
@@ -88,6 +88,9 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
 その中の一つを選択する規準である．
 
 \subsection{X-means}
+先に紹介したK-meansは，クラスタ数を事前に指定する必要が生じる．
+しかし，実際にデータのクラスタリングを行う際，クラスタ数が事前に与えられることは少ない．
+
 X-means$^{2)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
 クラスタリングを行う手法である．
 K-meansの逐次繰り返しと，BIC$^{3)}$ (Bayesian Information Criterion; ベイズ情報量規準) による
