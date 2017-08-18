@@ -9,10 +9,10 @@
 
 真の分布とモデルの近さを図る客観的な規準としてKullback-Leibler情報量(以後「K-L情報量」）がある．
 連続型の確率分布のとき，$g(x)$を真の確率密度関数，$f(x)$をモデルが定める確率密度関数とすると，
-モデルに関する真の分布のK-L情報量は\eqref{eq:k-l-div}で表される．
+モデルに関する真の分布のK-L情報量は$\log\{g(X)/f(X)\}$の期待値を取り\eqref{eq:k-l-div}で表される．
 \begin{align}
   \label{eq:k-l-div}
-  I(g \mid f) &= E_X \log \left\{\frac{g(X)}{f(X)}\right\}\\\nonumber
+  I(g \mid f) &= E_X\left(\log \left\{\frac{g(X)}{f(X)}\right\}\right)\\\nonumber
               &= \int^{\infty}_{-\infty}\log\left\{\frac{g(x)}{f(x)}\right\}g(x)dx
 \end{align}
 ただし，$\log$は自然対数で，注記がない限り一貫してこの意味で用いる．
@@ -84,16 +84,17 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
 最尤モデルの対数尤度を\textbf{最大対数尤度}という．
 
 \subsection{情報量規準}
-情報量規準とは，最尤推定によって当てはめられたモデルが複数個あるときに，
-その中の一つを選択する規準である．
+情報量規準とは，最尤推定によって当てはめられたモデルが複数個あるときに，その中の一つを選択する規準である．
+ここでは，最も有名な情報量規準のひとつであるAIC(Akaike Information Criterion; 赤池情報量規準)$^2)$を例に取り
+理論の解説を行う．
 
 \subsection{X-means}
 先に紹介したK-meansは，クラスタ数を事前に指定する必要が生じる．
 しかし，実際にデータのクラスタリングを行う際，クラスタ数が事前に与えられることは少ない．
 
-X-means$^{2)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
+X-means$^{3)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
 クラスタリングを行う手法である．
-K-meansの逐次繰り返しと，BIC$^{3)}$ (Bayesian Information Criterion; ベイズ情報量規準) による
+K-meansの逐次繰り返しと，BIC$^{4)}$ (Bayesian Information Criterion; ベイズ情報量規準) による
 分割停止規準を用いることで，クラスタ数を推定しクラスタリングを実行する．
 
 具体的には以下の手順で行われる．
