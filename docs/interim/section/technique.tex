@@ -85,64 +85,44 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
 
 \subsection{情報量規準}
 情報量規準とは，最尤推定によって当てはめられたモデルが複数個あるときに，その中の一つを選択する規準である．
-ここでは，最も有名な情報量規準のひとつであるAIC(Akaike Information Criterion; 赤池情報量規準)$^{2)}$を例に取り
-理論の解説を行う．
 
-まず，複数個のモデルがあるときに，各モデルの良し悪しを評価する規準として，
-最尤モデルの平均対数尤度のデータ$\vector{x}$に関する期待値（\textbf{期待平均対数尤度}）を導入する．
-データ$\vector{x} = (x_1, x_2, \cdots, x_n)$を確率変数$\vector{X}=(X_1, X_2, \cdots, X_n)$の実現値とする．
-$X_i$は独立に同じ真の分布 $g(\cdot) = f(\cdot \mid \vector{\theta}^*)$に従うものとする．
-ここで，$f$はK個のパラメータで規定される自由パラメータ数$K$のモデル
+多くの情報量規準は，
 \begin{align*}
-  \mathrm{MODEL}(K) : f(\cdot \mid \vector{\theta}),\ \vector{\theta}=(\theta_1, \theta_2, \cdots, \theta_K)
+  (モデルの尤度などデータへの適合度) + (モデルの自由度などの罰則項)
 \end{align*}
-である．$\vector{\theta}^* = (\theta_i^*, \theta_2^*, \cdots, \theta_K^*)$を真のパラメータという．
-このモデルのパラメータ空間を
-\begin{align*}
-  \Theta_k = \{ \vector{\theta} \in \Theta_K \mid \theta_{k+1} = \theta_{k+2} = \cdots = \theta_{K} = 0\}
-\end{align*}
-に制約して得られる制約モデルを$\mathrm{MODEL}(k)$と書くことにする．
-$k \leq l$なら，$\mathrm{MODEL}(k)$は$\mathrm{MODEL}(l)$を制約したモデルになる．
-この場合，
-\begin{align*}
-  \mathrm{MODEL}(k)の自由パラメータ数 = k
-\end{align*}
-が成り立つ．$\Theta_1 \subset \Theta_2 \subset \cdots \subset \Theta_K$であるから，
-$\vector{\theta}^* \in \Theta_k$を満足する最小の$k$が存在する．
-この$k$をモデルの真の自由パラメータ数といい，$k^*$で表す．
+という形をしている．
 
-データ$\vector{x}$が与えられたときの，$\mathrm{MODEL}(k)$のパラメータの最尤推定量
-$\hat{\vector{\theta}}_k$は対数尤度
-\begin{align*}
-  l(\vector{\theta}) = \sum_{i=1}^n \log f(x_i \mid \vector{\theta})
-\end{align*}
-を，$\vector{\theta} \in \Theta_k$の範囲で最大化することによって得られる．
-$f$は確率密度関数である．このとき，最大対数尤度は
-\begin{align*}
-  l(\hat{\vector{\theta}}_k) = \max_{\theta \in \Theta_k} l(\vector{\theta})
-\end{align*}
-で与えられる．分布$f(\cdot \mid \vector{\theta})$の平均対数尤度は，
-$Z$を$X_i$と同じ分布に従い$\vector{X}$とは独立な確率変数として，
-\begin{align*}
-  E_Z\{\log f(Z \mid \vector{\theta})\} = \int f(z \mid {\textstyle\vector{\theta}^*}) dz
-\end{align*}
-で与えられる．対数尤度との対応を考えて，平均対数尤度の$n$倍
-\begin{align*}
-  l^*(\vector{\theta}) = n E_Z \{ \log f(Z \mid \vector{\theta}) \}
-\end{align*}
-を定義しておく．$l^*(\vector{\theta})$が大きいほど，分布$f(\cdot \mid \vector{\theta})$の
-真の分布$f(\cdot \mid \vector{\theta}^*)$に対する近似がいいことになる．
-
-最尤モデルの良さは $l^*(\hat{\vector{\theta}}_k)$で評価できる．
-これは確率変数$\vector{X}$の実現値$\vector{x}$に依存する確率変数であるので，その期待値を取り，
-\begin{align*}
-  {l_n}^*(k) = E_{\vector{X}}\{l^*(\hat{\vector{\theta}}_k)\} = \int l^*(\hat{\vector{\theta}}_k) \prod^n_{i=1} g(x_i) d\vector{x}
-\end{align*}
-でモデルを評価することにする．${l_n}^*(k)$をモデルの\textbf{期待平均対数尤度}という．
-期待平均対数尤度は，個々の実現地に依存しない，データの真の分布およびモデルだけで決まる量である．
-この値が大きいほど良いモデルということになる．
-
-
+以下に，いくつか情報量規準の例を示す．
+なお，モデル$M_j$の$p_j$変量Gauss分布の対数尤度関数を$\hat{l}_j$と表し，
+モデルのデータ数を$R$と表す．
+\begin{description}
+  \item[AIC (Akaike Information Criterion; 赤池情報量規準)]
+    \begin{align}
+      \label{eq:aic}
+      \mathrm{AIC}(M_j) = \hat{l}_j(D) - p_j
+    \end{align}
+  \item[cAIC (Conditional Akaike Information Criterion; 条件付き赤池情報量規準)]
+    \begin{align}
+      \label{eq:caic}
+      \mathrm{cAIC}(M_j) = \hat{l}_j(D) - \frac{p_j \cdot R}{R-p_j-1}
+    \end{align}
+  \item[BIC (Beyesian Information Criterion; ベイズ情報量規準)]
+    \begin{align}
+      \label{eq:bic}
+      \mathrm{BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
+    \end{align}
+  % TIC: https://repository.kulib.kyoto-u.ac.jp/dspace/bitstream/2433/155553/1/kronso_183_2_67.pdf
+  % TIC, GIC: http://www.ism.ac.jp/editsec/toukei/pdf/47-2-375.pdf
+  % \item[TIC (Takeuchi Information Criterion; 竹内情報量規準)]
+  %   \begin{align}
+  %     \label{eq:tic}
+  %     \mathrm{TIC}(M_j) = \hat{l}_j(D) - \mathrm{Tr}(\hat{I}\hat{J}^{-1})
+  %   \end{align}
+  %   ここで，$\hat{I}$と$\hat{J}$はそれぞれ，
+  %   \begin{align*}
+  %     I_0 = E_g
+  %   \end{align*}
+\end{description}
 
 \subsection{X-means}
 先に紹介したK-meansは，クラスタ数を事前に指定する必要が生じる．
@@ -170,11 +150,7 @@ K-meansの逐次繰り返しと，BIC$^{4)}$ (Bayesian Information Criterion; �
 X-meansで用いるBICは次のように求められる．
 $d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_d})$を
 $K$個のクラスタに分割することを考える．
-モデル$M_j$の評価に用いるBICは以下で与えられる．
-\begin{align}
-  \label{eq:bic}
-  \mathrm{BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
-\end{align}
+モデル$M_j$の評価に用いるBICは\eqref{eq:bic}で与えられる．
 $p_j$はモデル$M_j$のパラメータ数であり，$R$は$M_j$のデータ数，
 $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
 
