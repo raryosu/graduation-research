@@ -88,7 +88,7 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
 
 多くの情報量規準は，
 \begin{align*}
-  (モデルの尤度などデータへの適合度) + (モデルの自由度などの罰則項)
+  (モデルの最大尤度対数) - (モデルの自由パラメータ数などの罰則項)
 \end{align*}
 という形をしている．
 
@@ -96,17 +96,25 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
 なお，モデル$M_j$の$p_j$変量Gauss分布の対数尤度関数を$\hat{l}_j$と表し，
 モデルのデータ数を$R$と表す．
 \begin{description}
-  \item[AIC (Akaike Information Criterion; 赤池情報量規準)]
+  \item[AIC (Akaike Information Criterion; 赤池情報量規準)]~\\
+    1973年に赤池によって提案された情報量規準である$^{2)}$．
     \begin{align}
       \label{eq:aic}
       \mathrm{AIC}(M_j) = \hat{l}_j(D) - p_j
     \end{align}
-  \item[cAIC (Conditional Akaike Information Criterion; 条件付き赤池情報量規準)]
+  \item[cAIC (Conditional Akaike Information Criterion; 条件付き赤池情報量規準)]~\\
+    AICは導出に漸近理論を使っているため，標本サイズが無限に大きいことを想定している．
+    したがって，標本サイズが小さい場合はその過程が成り立たず，AICによるモデル決定は
+    パラメータ数を過大に見積もってしまう．
+
+    そこで，N. Sugiura は漸近理論を使わない不偏推定量であるcAICを導出した$^{3)}$．
     \begin{align}
       \label{eq:caic}
       \mathrm{cAIC}(M_j) = \hat{l}_j(D) - \frac{p_j \cdot R}{R-p_j-1}
     \end{align}
-  \item[BIC (Beyesian Information Criterion; ベイズ情報量規準)]
+  \item[BIC (Beyesian Information Criterion; ベイズ情報量規準)]~\\
+    BICは1978年にSchwartzによって提案された$^{4)}$．
+    AICとは異なり，罰則項に事後確率を利用する．
     \begin{align}
       \label{eq:bic}
       \mathrm{BIC}(M_j) = \hat{l}_j(D) - \frac{p_j}{2}\ln R
@@ -128,10 +136,9 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
 先に紹介したK-meansは，クラスタ数を事前に指定する必要が生じる．
 しかし，実際にデータのクラスタリングを行う際，クラスタ数が事前に与えられることは少ない．
 
-X-means$^{3)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
+X-means$^{5)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
 クラスタリングを行う手法である．
-K-meansの逐次繰り返しと，BIC$^{4)}$ (Bayesian Information Criterion; ベイズ情報量規準) による
-分割停止規準を用いることで，クラスタ数を推定しクラスタリングを実行する．
+K-meansの逐次繰り返しと，BICによる分割停止規準を用いることで，クラスタ数を推定しクラスタリングを実行する．
 
 具体的には以下の手順で行われる．
 \begin{enumerate}
@@ -182,3 +189,6 @@ $\hat{l}_j(D)$は$p$変量Gauss分布の対数尤度関数である．
     + R_n\log R_n - R_n \log R
   \end{split}
 \end{align}
+
+一般的には，分割停止規準としてBICを用いるが，本実験においては，BIC以外の情報量規準を用いた
+クラスタリングも行い，クラスタ数推定の精度を検証する．
