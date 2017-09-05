@@ -4,25 +4,16 @@
 実験にはPython3.5を用い，
 機械学習のライブラリとしてTensorFlowを用いてアルゴリズムを実装した．
 
-\subsection{K-meansによるクラスタリング}
-\figref{img:kmeans-before}のデータをクラスタ数5としてクラスタリングした結果，
-\figref{img:kmeans-after}のような結果になった．
-
-% なお，クラスタリングの打ち切り条件は，セントロイドの差が$1.0\times10^{-10}$以下のときとした．
-\begin{figure}[htbp]
-  \begin{center}
-    \includegraphics[width=0.8\linewidth]{img/k-means/before.pdf}
-    \caption{クラスタリング前のデータ}
-    \label{img:kmeans-before}
-  \end{center}
-\end{figure}
-\begin{figure}[htbp]
-  \begin{center}
-    \includegraphics[width=0.8\linewidth]{img/k-means/after.pdf}
-    \caption{K-meansによるクラスタリング結果}
-    \label{img:kmeans-after}
-  \end{center}
-\end{figure}
+\subsection{精度の評価}
+クラスタリング精度の評価はPythonのライブラリであるscilit-learnを用い，以下の3項目により行う．
+\begin{description}
+  \item[ARI; Adjusted Rand Index, 調整ランド指数]~\\
+    クラスタの正解ラベルに対してクラスタリング結果の一致度を評価する指標．1に近づくほどよい結果．
+  \item[NMI; Normalized Mutual Information, 正規化相互情報量]~\\
+    相互情報量を正規化した尺度．
+  \item[Purity]~\\
+    生成されたクラスタがどれだけ多数派で占められているかを表す尺度
+\end{description}
 
 \subsection{X-meansによるクラスタリング}
 K-meansと同様に，クラスタ数が5つのデータを生成し，X-meansにより分割した結果，

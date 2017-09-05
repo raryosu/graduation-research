@@ -4,7 +4,7 @@ from scipy import stats
 from sklearn.metrics import euclidean_distances
 from sklearn.cluster import KMeans
 
-def xmeans(samples, initial_centroids, kmin, kmax=None):
+def xmeans(samples, initial_centroids, kmin, kmax=None, dim=2):
     k = kmin
     cluster_centers = initial_centroids
     while kmax is None or k <= kmax:
@@ -12,7 +12,7 @@ def xmeans(samples, initial_centroids, kmin, kmax=None):
         model = KMeans(n_clusters=k, init=cluster_centers).fit(samples)
 
         # centroidsをいれておくはこ
-        cluster_centers = np.empty((0,2), float)
+        cluster_centers = np.empty((0,dim), float)
         labels = np.array([])
         for i, centroid in enumerate(model.cluster_centers_):
             new_point1 = np.sort(samples)[0]
@@ -35,7 +35,6 @@ def xmeans(samples, initial_centroids, kmin, kmax=None):
 
             bic_parent = bic([points], [centroid])
             bic_child = bic([cluster1, cluster2], test_model.cluster_centers_)
-            print("BIC: ", [bic_parent, bic_child])
             if bic_child > bic_parent:
                 cluster_centers = np.vstack((cluster_centers, test_model.cluster_centers_))
             else:
@@ -44,15 +43,6 @@ def xmeans(samples, initial_centroids, kmin, kmax=None):
             break
         k = np.size(cluster_centers, axis=0)
 
-    """
-    labels_ = np.empty(samples.shape[0], dtype = np.inp)
-    for i, c in enumerate(cluster_centers):
-        labels_[c.index] = i
-
-    self.cluster_centers_ = np.array([c.center for c in self.__clusters])
-    self.cluster_log_likelihoods_ = np.array([c.log_likelihood() for c in self.__clusters])
-    self.cluster_sizes_ = np.array([c.size for c in self.__clusters])
-    """
     return (model.labels_, cluster_centers)
 
 def log_likelihood(R, dim, clusters, centroids):
@@ -79,6 +69,8 @@ def bic(clusters, centroids):
     ll = log_likelihood(R, dim, clusters, centroids)
 
     return ll - ((pj / 2) * np.log(R))
+    # AIC
+    # return ll - pj
 
 def cluster_variance(R, clusters, centroids):
     """

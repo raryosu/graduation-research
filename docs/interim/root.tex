@@ -1,4 +1,4 @@
-\documentclass[10pt,a4j]{ltjsarticle}
+\documentclass[10.5pt,a4j]{ltjsarticle}
 
 % 卒業研究報告書スタイルファイル
 \usepackage{layouts/tsuyama/eeses}
@@ -11,8 +11,6 @@
 \usepackage{amsmath, amssymb}
 % リスト制御
 \usepackage{enumitem}
-% newtxフォント
-\usepackage{newtxmath, newtxtext}
 % 画像
 \usepackage{graphicx}
 % shaded環境の背景色の定義
@@ -34,8 +32,8 @@
 %\usepackage{layouts/others/section}
 % ベクトル表記
 \usepackage{bm}
-\def\vector#1{\mathop{\mathbf{#1}}}
-% 疑似アルゴリズム
+\def\vector#1{\mathop{\bm{#1}}}
+% 疑似コード
 \usepackage{algorithm}
 \usepackage{algorithmic}
 % 画像・図表等のrefコマンド
@@ -81,6 +79,8 @@
 \input{section/intro}
 % 先行研究
 \input{section/precedence-study}
+% 手法
+\input{section/technique}
 % 実験結果
 \input{section/experiments}
 % おわりに
