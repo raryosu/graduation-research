@@ -68,9 +68,9 @@ def bic(clusters, centroids):
 
     ll = log_likelihood(R, dim, clusters, centroids)
 
-    return ll - ((pj / 2) * np.log(R))
+    # return ll - ((pj / 2) * np.log(R))
     # AIC
-    # return ll - pj
+    return ll - pj
 
 def cluster_variance(R, clusters, centroids):
     """
