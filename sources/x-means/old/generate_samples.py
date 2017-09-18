@@ -34,10 +34,6 @@ with tf.Session() as session:
 
     labels, cluster_centers = xmeans(sample_values, centroids, kmin=2)
 
-    # plot graph
-    plot_clusters(sample_values, labels, n_samples_per_cluster, cluster_centers, edit_centroids=True, save=True, name='after')
-    plot_clusters(sample_values, labels, n_samples_per_cluster, cluster_centers, edit_centroids=False, save=True, name='after')
-
     # Calculate criterion
     purity = metrics.adjusted_rand_score(label, labels)
     nmi = metrics.normalized_mutual_info_score(label, labels)

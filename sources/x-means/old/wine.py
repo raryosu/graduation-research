@@ -20,9 +20,10 @@ embiggen_factor = 70
 threshold = 0.1e-9
 
 # load wine datasets
-wine = np.loadtxt("../datasets/wine.data", delimiter=",")
-samples = tf.Variable(wine[:,1:14])
-labels = tf.Variable(wine[:, 0])
+wine = np.loadtxt("../../datasets/winequality-red.csv", delimiter=";", skiprows=1)
+# iris = datasets.load_iris()
+samples = tf.Variable(wine[:-2])
+labels = tf.Variable(wine[:,-1])
 
 initial_centroids = choose_random_centroids(samples, 2, seed=seed)
 centroids = tf.concat(initial_centroids, 0, name='centroids')
