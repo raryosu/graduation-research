@@ -16,14 +16,32 @@
 \end{description}
 
 \subsection{X-meansによるクラスタリング}
-K-meansと同様に，クラスタ数が5つのデータを生成し，X-meansにより分割した結果，
-\figref{img:xmeans-after}のようになった．
-図より，クラスタ数を5つとして適切にクラスタリングを行っていることがわかる．
+\subsubsection{2次元のクラスタリング}
 
-\begin{figure}[htbp]
-  \begin{center}
-    \includegraphics[width=0.8\linewidth]{img/x-means/after.pdf}
-    \caption{X-meansによるクラスタリング結果}
-    \label{img:xmeans-after}
-  \end{center}
-\end{figure}
+まず，2次元のデータのクラスタリング結果を比較する．
+2次元空間にGauss分布により生成した，5つのクラスタをサンプル数500で生成し，BIC, AIC, cAICによりクラスタリングを行った．
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|} \hline
+  情報量規準 & クラスタ数 & Purity & NMI & ARI\\\hline
+  BIC & 5 & 0.927078656156 & 0.918545305981 & 0.927078656156\\
+  AIC & 5 & 0.96128969697 & 0.958260173583 & 0.961289696970\\
+  cAIC & 4 & 0.775510204082 & 0.909796338073 & 0.775510204082\\\hline
+
+  \end{tabular}
+\end{table}
+
+\subsubsection{3次元のクラスタリング}
+
+3次元空間にGauss分布により生成した，5つのクラスタをサンプル数500で生成し，BIC, AIC, cAICによりクラスタリングを行った．
+
+\begin{table}[htb]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|} \hline
+  情報量規準 & クラスタ数 & Purity & NMI & ARI\\\hline
+  BIC & 5 & 0.980091009354 & 0.973885939572 & 0.980091009354\\
+  AIC & 5 & 0.985055883562 & 0.980838771530 & 0.985055883562\\
+  cAIC & 4 & 0.781236299868 & 0.909796338073 & 0.781236299868\\\hline
+  \end{tabular}
+\end{table}

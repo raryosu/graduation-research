@@ -39,11 +39,11 @@ class XMeans:
                 rn = np.size(np.where(labels == i))
                 var = (np.sum((X[labels == i] - mean[i]) ** 2) + 1.0) / float(rn - 1)
                 # AIC
-                # obic[i] = self.log_likelihood(rn, rn, var, M, 1) - p
+                obic[i] = self.log_likelihood(rn, rn, var, M, 1) - p
                 # BIC
                 # obic[i] = self.log_likelihood(rn, rn, var, M, 1) - p/2.0 * mt.log(rn)
                 # c-AIC
-                obic[i] = self.log_likelihood(rn, rn, var, M, 1) - (p * rn) / (rn - p - 1)
+                # obic[i] = self.log_likelihood(rn, rn, var, M, 1) - (p * rn) / (rn - p - 1)
 
             sk = 2
             nbic = np.zeros(k)
@@ -64,11 +64,11 @@ class XMeans:
 
                 p = sk * (M + 1)
                 # AIC
-                # nbic[i] -= p
+                nbic[i] -= p
                 # BIC
                 # nbic[i] -= p/2.0 * mt.log(r)
                 # cAIC
-                nbic[i] -= (p * r) / (r - p - 1)
+                # nbic[i] -= (p * r) / (r - p - 1)
 
                 if obic[i] < nbic[i]:
                     addk += 1

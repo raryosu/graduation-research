@@ -11,13 +11,13 @@ if len(sys.argv) == 4:
 
     X, TrueLabels = datasets.make_blobs(n_samples=NUM, centers=K, n_features=DIM)
 else:
-    wine = np.loadtxt("../datasets/winequality-white.csv", delimiter=";", skiprows=1)
-    X = wine[:,:-2]
-    TrueLabels = wine[:,-1]
-    print(TrueLabels)
-    # iris = datasets.load_iris()
-    # X = iris.data
-    # TrueLabels = iris.target
+    # wine = np.loadtxt("../datasets/winequality-white.csv", delimiter=";", skiprows=1)
+    # X = wine[:,:-2]
+    # TrueLabels = wine[:,-1]
+    # print(TrueLabels)
+    iris = datasets.load_iris()
+    X = iris.data
+    TrueLabels = iris.target
 
 
 X = tf.Variable(X)
