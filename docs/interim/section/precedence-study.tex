@@ -8,25 +8,84 @@
 
 \subsection{K-means}
 K-means$^{1)}$は，多次元空間上のデータ点集合について，各データが属するクラスタを同定する最もよく使われるクラスタリング手法の一つである．
-K-meansは，以下の2つの手順を繰り返すことでクラスタリングを行う．
-\begin{enumerate}
-  \item 各データ点とデータ点の距離を求め，各データ点を最も近いセントロイドのクラスタに割り当てる．
-  \item クラスタに所属するデータの平均を新たなセントロイドとする．
-\end{enumerate}
-セントロイドが移動しなくなったらクラスタリングを終了する．
+% K-meansは，以下の2つの手順を繰り返すことでクラスタリングを行う．
+% \begin{enumerate}
+%   \item 各データ点とデータ点の距離を求め，各データ点を最も近いセントロイドのクラスタに割り当てる．
+%   \item クラスタに所属するデータの平均を新たなセントロイドとする．
+% \end{enumerate}
+% セントロイドが移動しなくなったらクラスタリングを終了する．
 
-% \begin{algorithm}
-%   \caption{K-means Algorithm}
-%   \label{alg:k-means}
-%   \begin{algorithmic}
-%     \REQUIRE
-%       $N$: データ数, $K$: クラスタ数, $\lambda$: 収束条件,
-%       ${\bm X} = ({\bm x_0}, {\bm x_1}, \cdots, {\bm x_N})$
-% 
-%     $K$個のセントロイドとしてランダムに配置する．
-%   \end{algorithmic}
-% \end{algorithm}
-% 
+$D$次元空間上の確率変数$x$の$N$個の観測点で構成されるデータ集合
+$\{\vector{x}_1, \vector{x}_2, \cdots, \vector{x}_N\}$があると仮定する．
+このデータ集合を$K$個のクラスタに分割することを考える．
+直感的には，クラスタとは，その内部のデータ点間の距離が外部のデータとの距離と比較して小さいテータのグループであるとみなせる．
+ここで，セントロイド$\vector{\mu}_k$を導入する．
+K-meansはベクトルの集合$\{\vector{\mu}_k\}$だけでなく，全データ点をうまくクラスタに対応させ，
+各データ点から $\vector{\mu}_k$をへの二乗距離の総和を最小にすることで，クラスタリングを行う．
+
+ここで，各データ点$\vector{x}_n$に対し，対応する2値指示変数$r_{nk} \in \{0, 1\}\ (k = 1, \cdots, K)$を定める．
+これは，そのデータ点$\vector{x}_n$がクラスタ$k$に割り当てられるかを表す変数である．
+すなわち，データ点$\vector{x}_n$がクラスタ$k$に割り当てられる場合は$r_{nk}=1$とし，
+$j \not= k$については，$r_{nk}=0$とする．これは，1-of-K符号化法として知られている．
+
+次に，次の目的関数$J$を定義する．
+
+\begin{align}
+  J = \sum_{n=1}^{N} \sum_{k=1}^{K} r_{nk} || {\displaystyle \vector{x}_n - \vector{\mu}_k} || ^2
+\end{align}
+
+これは，歪み尺度と呼ばれ，各データ店からそれらが割り当てられたベクトル$\vector{\mu}_k$までの二乗距離の総和を表している．
+K-meansによるクラスタリングは，$J$を最小にする$\{r_{nk}\}$と$\{\vector{\mu}_k\}$の値を求めることである．
+
+\begin{figure}[htbp]
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91a.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91b.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91c.pdf}
+    \end{center}
+  \end{minipage}\\
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91d.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91e.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91f.pdf}
+    \end{center}
+  \end{minipage}\\
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91g.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91h.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.33\hsize}
+    \begin{center}
+      \includegraphics[width=40mm]{img/kmeans/Figure91i.pdf}
+    \end{center}
+  \end{minipage}
+  \caption{K-meansの動作}
+  \label{fig:k-means}
+\end{figure}
 
 K-meansによるクラスタリングは，事前にクラスタ数を指定することによりクラスタリングを行う．
 したがって，クラスタ数が未知の場合，K-meansを用いることはできない．
