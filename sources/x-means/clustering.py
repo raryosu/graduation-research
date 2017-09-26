@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 from sklearn import datasets, metrics
 import xmeans
-from xmeans import plot_clusters
+from xmeans import plot_clusters, plot_clusters_3d
 
 if len(sys.argv) == 5:
     DIM = int(sys.argv[1])
@@ -41,4 +41,5 @@ with tf.Session() as session:
     # print("Estimated k = " + str(xm.k) + ", purity = " + str(purity) + ", NMI = " + str(nmi) + ", ARI = " + str(ari) + "\n")
     print(str(xm.k) + ", " + str(purity) + ", " + str(nmi) + ", " + str(ari))
 
-    plot_clusters(X_values, xm.labels, NUM, xm.k, name=name)
+    # plot_clusters(X_values, xm.labels, NUM, xm.k, name=name)
+    plot_clusters_3d(X_values, xm.labels, NUM, xm.k, name=name)

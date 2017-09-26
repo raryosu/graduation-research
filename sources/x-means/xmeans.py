@@ -97,3 +97,22 @@ def plot_clusters(all_samples, labels, n_samples_per_cluster, num, name='after')
     d = datetime.datetime.now()
     plt.show()
     plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
+
+def plot_clusters_3d(all_samples, labels, n_samples_per_cluster, num, name='after'):
+    import datetime
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d.axes3d import Axes3D
+
+    colour = plt.cm.rainbow(np.linspace(0, 1, num))
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    for i in range(num):
+        samples = np.array([data for j, data in enumerate(all_samples) if labels[j]==i])
+        ax.scatter(samples[:,0], samples[:,1], c=colour[i])
+    d = datetime.datetime.now()
+    plt.show()
+    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
+
+
