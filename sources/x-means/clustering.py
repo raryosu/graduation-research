@@ -3,12 +3,13 @@ import tensorflow as tf
 import numpy as np
 from sklearn import datasets, metrics
 import xmeans
+from xmeans import plot_clusters
 
-if len(sys.argv) == 4:
+if len(sys.argv) == 5:
     DIM = int(sys.argv[1])
     K = int(sys.argv[2])
     NUM = int(sys.argv[3])
-
+    name = str(sys.argv[4])
     X, TrueLabels = datasets.make_blobs(n_samples=NUM, centers=K, n_features=DIM)
 else:
     # wine = np.loadtxt("../datasets/winequality-white.csv", delimiter=";", skiprows=1)
@@ -37,5 +38,7 @@ with tf.Session() as session:
     nmi = metrics.normalized_mutual_info_score(TrueLabels_values, xm.labels)
     ari = metrics.adjusted_rand_score(TrueLabels_values, xm.labels)
 
-    print("Estimated k = " + str(xm.k) + ", purity = " + str(purity) + ", NMI = " + str(nmi) + ", ARI = " + str(ari) + "\n")
+    # print("Estimated k = " + str(xm.k) + ", purity = " + str(purity) + ", NMI = " + str(nmi) + ", ARI = " + str(ari) + "\n")
+    print(str(xm.k) + ", " + str(purity) + ", " + str(nmi) + ", " + str(ari))
 
+    plot_clusters(X_values, xm.labels, NUM, xm.k, name=name)
