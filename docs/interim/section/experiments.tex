@@ -5,7 +5,7 @@
 機械学習のライブラリとしてTensorFlowを用いてアルゴリズムを実装した．
 
 \subsection{精度の評価}
-クラスタリング精度の評価はPythonのライブラリであるscilit-learnを用い，以下の3項目により行う．
+クラスタリング精度の評価はPythonのライブラリであるscilit-learnを用い，以下の3項目により行った．
 \begin{description}
   \item[ARI; Adjusted Rand Index, 調整ランド指数]~\\
     クラスタの正解ラベルに対してクラスタリング結果の一致度を評価する指標．1に近づくほどよい結果．
@@ -15,15 +15,16 @@
     生成されたクラスタがどれだけ多数派で占められているかを表す尺度
 \end{description}
 
-\subsection{X-meansによるクラスタリング}
-\subsubsection{2次元のクラスタリング}
+また，推定されたクラスタ数および，複数回クラスタリングを繰り返し，その際に推定されたクラスタ数の分散も算出した．
+
+\subsection{2次元空間のクラスタリング}
 
 まず，2次元のデータのクラスタリング結果を比較する．
 2次元空間に分散$\sigma^2=1$のGauss分布により生成した，クラスタあたりのサンプル数を500として5つのクラスタを生成し，
 対数尤度関数，BIC, AIC, cAICを分割停止規準として採用してクラスタリングを行った．
 
-\tablenum{table:2dim}に100回クラスタリングを行ったときの，推定されたクラスタ数，ARI, NMI, Purityの平均値および
-クラスタ数の分散値を示す．
+\tablenum{table:2dim}に都度ランダムに生成されたデータに対して100回クラスタリングを行ったときの，
+推定されたクラスタ数，ARI, NMI, Purityの平均値および推定されたクラスタ数の分散を示す．
 また，\figurenum{fig:2dim}に2次元空間におけるクラスタリングの例を示す．
 
 \begin{table}[htb]
@@ -50,29 +51,20 @@
 比較的安定したクラスタ数推定を行っていることが見て取れる．
 
 \begin{figure}[htbp]
-  \begin{minipage}{0.5\hsize}
-    \begin{center}
-      \includegraphics[width=0.9\linewidth]{./img/BIC_2.pdf}
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{./img/BIC_2.pdf}
       \caption{2次元空間のクラスタリング例}
       \label{fig:2dim}
-    \end{center}
-  \end{minipage}
-  \begin{minipage}{0.5\hsize}
-    \begin{center}
-      \includegraphics[width=0.9\linewidth]{./img/BIC_3.pdf}
-      \caption{3次元空間のクラスタリング例}
-      \label{fig:3dim}
-    \end{center}
-  \end{minipage}
+  \end{center}
 \end{figure}
 
-\subsubsection{3次元のクラスタリング}
+\subsection{3次元空間のクラスタリング}
 
 3次元空間に分散$\sigma^2=1$のGauss分布により生成した，クラスタあたりのサンプル数を500として5つのクラスタを生成し，
 対数尤度関数，BIC, AIC, cAICによりクラスタリングを行った．
 
-\tablenum{table:3dim}に100回クラスタリングを行ったときの，推定されたクラスタ数，ARI，NMI，Purityの平均値および
-クラスタ数の分散を示す．
+\tablenum{table:3dim}に都度ランダムに生成されたデータに対して100回クラスタリングを行ったときの，
+推定されたクラスタ数，ARI, NMI, Purityの平均値および推定されたクラスタ数の分散を示す．
 
 また，\figurenum{fig:3dim}に2次元空間におけるクラスタリングの例を示す．
 
@@ -89,6 +81,13 @@
   \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{./img/BIC_3.pdf}
+      \caption{3次元空間のクラスタリング例}
+      \label{fig:3dim}
+  \end{center}
+\end{figure}
 2次元のクラスタリングとは異なり，3次元空間においてはBICを分割停止規準として採用した場合の精度が良くなっている．
 分散値も非常に小さいため，安定して精度の高いクラスタリングを行っていることが伺える．
 
