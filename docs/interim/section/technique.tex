@@ -1,103 +1,39 @@
 \section{手法}
-\subsection{Kullback-Leibler情報量}
-偶然を伴う現象は，ある確率分布に従う確率変数の実現値であると考えることができる．
-この確率分布を近似するモデル（以後「モデル」）は，データを生成する真の確率分布に
-どの程度近いかによって評価することができる．
-また，データにモデルを当てはめることは，データから真の確率分布を推定しているものと
-みなすことができる．このようにモデルと真の分布が共に確率分布であると見なし，
-モデルの評価や推定を行う．
-
-真の分布とモデルの近さを図る客観的な規準としてKullback-Leibler情報量（以後「K-L情報量」）がある．
-連続型の確率分布のとき，$g(x)$を真の確率密度関数，$f(x)$をモデルが定める確率密度関数とすると，
-モデルに関する真の分布のK-L情報量は$\log\{g(X)/f(X)\}$の期待値を取り\eqref{eq:k-l-div}で表される．
-\begin{align}
-  \label{eq:k-l-div}
-  I(g \mid f) &= E_X\left(\log \left\{\frac{g(X)}{f(X)}\right\}\right)\\\nonumber
-              &= \int^{\infty}_{-\infty}\log\left\{\frac{g(x)}{f(x)}\right\}g(x)dx
-\end{align}
-ただし，$\log$は自然対数で，注記がない限り一貫してこの意味で用いる．
-
-このように，真の分布がわかっている場合にはK-L情報量によってモデルの良し悪しを比較できた．
-しかし，通常は真の分布が未知で，真の分布から得られたデータだけが与えられていることがい．
-したがって，データからK-L情報量を推定する必要がある．
-\eqref{eq:k-l-div}を展開すると
-\begin{align*}
-  I(g \mid f) &= \int^{\infty}_{-\infty}\left\{\log\frac{g(x)}{f(x)}\right\}g(x)dx\\\nonumber
-              &= -\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx - 
-                 \left(-\int^{\infty}_{-\infty}\{\log g(x)\}g(x)dx\right)
-\end{align*}
-となるが，右辺の第2項は定数であり，右辺第1項が大きいほどK-L情報量$I(g \mid f)$は
-小さくなることがわかる．
-すなわち，K-L情報量の大小比較のためには，本質的には$\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx$だけを推定すれば良いことがわかる．
-右辺第1項の$\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx$は，確率密度関数$\log f(x)$の期待値$E( \log f(x))$であり，平均対数尤度と呼ばれている．
-ここで，
-\begin{align*}
-  \sum_{i=1}^{n}\log f(x_i)
-\end{align*}
-を対数尤度と呼ぶことにすると，$n$個の独立な観測値$\{x_1, x_2, \cdots, x_i\}$が得られると，
-この平均対数尤度は，対数尤度の$n$分の1
-\begin{align*}
-  \frac{1}{n}\sum_{i=1}^{n}\log f(x_i)
-\end{align*}
-で近似される．
-したがって，符号に注意すると，対数尤度が大きいほど，そのモデルは真の分布に近いと考えられる．
-このようにして，対数尤度をK-L情報量の推定値を考えることにすると異なったタイプのモデルの
-良し悪しも比較できるのである．
-
-ところで，確率変数$(X_1, X_2, \cdots, X_n)$の同時密度関数が$f(x_1, x_2, \cdots, x_n \mid \theta)$で
-与えられているものとする．
-$\theta$は確率密度関数を規定するパラメータである．この時，観測値$(x_1, x_2, \cdots, x_n)$は
-与えられたものとして固定し，$f$を$\theta$の関数と考える時，この関数を\textbf{尤度}と呼び，
-$L(\theta)$で表す．すなわち，
-\begin{align*}
-  L(\theta) = f(x_1, x_2, \cdots, x_n \mid \theta)
-\end{align*}
-である．特に，確率変数が独立な場合には$(X_1, X_2, \cdots, X_n)$の確率密度関数は，
-各$X_i (i = 1, \cdots, n)$の確率密度関数の積に等しいことから，
-\begin{align*}
-  L(\theta) = f(x_1 \mid \theta)f(x_2 \mid \theta) \cdots f(x_n \mid \theta)
-\end{align*}
-となる．この両辺の対数をとると，すでに求められた対数尤度関数
-\begin{align*}
-  l(\theta) = \sum_{i=1}^{n}\log f(x_i \mid \theta)
-\end{align*}
-が導かれる．
-
-ここでは，平均対数尤度の推定量から対数尤度を直接導入した．
-しかし，モデルが確率分布の形で与えられている場合には，まず観測値の同時分布から
-尤度を定義し，その対数として対数尤度を求めるほうが都合が良い．
-$(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数として対数尤度
-\begin{align*}
-  l(\theta) = \log f(x_1, \cdots, x_n \mid \theta)
-\end{align*}
-が定義できる．
-
-\subsection{最尤法}
-ここまで，データに基づいてK-L情報量の大小を比較するためには対数尤度を比較すれば良いことを示した．
-あらかじめ与えられたいくつかのモデルがある場合には，対数尤度が最大となるモデルを選択することによって，
-近似的には真の分布にいちばん近いモデルが得られることになる．
-したがって，モデルがいくつかの調整できるパラメータを保つ場合には，対数尤度を最大とするように
-パラメータの値を選ぶことによって良いモデルが得られることがわかる．
-この推定を最大尤度法，略して\textbf{最尤法}と呼ばれている．
-また，最尤法で導かれた推定量は\textbf{最尤推定量}と呼ばれ，この最尤推定量によって定められるモデルが
-最尤モデルである．
-最尤モデルの対数尤度を\textbf{最大対数尤度}という．
 
 \subsection{情報量規準}
 情報量規準とは，最尤推定によって当てはめられたモデルが複数個あるときに，その中の一つを選択する規準である．
 
-多くの情報量規準は，
+モデルの良し悪しは，最尤モデルの平均対数尤度のデータ$\vector{x}$に関する期待値
+（期待平均対数尤度）によって考えることができる．
+期待平均対数尤度の値が大きいほど，そのモデルは良いといえる．
+モデルの最大対数尤度を期待平均対数尤度の1つの推定量と捉えることができるが，
+詳しく調べると，最大対数尤度そのものは期待平均対数尤度の不偏推定量にならないことがわかる．
+一般に最大対数尤度は，期待平均対数尤度の本当の値に比べて大きく出やすいという偏りを持つ．
+この傾向はモデルの自由パラメータ数が大きいほど著しい．
+これは最大対数尤度の比較に寄ってモデルを選択すると，自由パラメータ数の大きいモデルほど選ばれやすいことを示している．
+
+最大対数尤度の期待平均対数尤度に対する偏りの程度とモデルの自由パラメータ間の関係を調べると，
+\begin{align*}
+  (モデルの最大尤度対数) - (モデルの自由パラメータ数)
+\end{align*}
+が近似的に期待平均対数尤度の不偏推定量となることが導かれる．
+これがAICと呼ばれる情報量規準である．
+AICを最大とするモデルが最適なモデルと考えられる．
+AICは最大対数尤度が同程度のモデルがあるときには，その中で実際に推定しなければならないパラメータの数が
+最も少ないものを選ぶべきであることを示している．
+
+多くの情報量規準は，AICの形式を踏襲し，
 \begin{align*}
   (モデルの最大尤度対数) - (モデルの自由パラメータ数などの罰則項)
 \end{align*}
 という形をしている．
 
 以下に，いくつか情報量規準の例を示す．
-なお，モデル$M_j$の$p_j$変量Gauss分布の対数尤度関数を$\hat{l}_j$と表し，
+なお，モデル$M_j$の$p_j$変量等方Gauss分布の対数尤度関数を$\hat{l}_j$と表し，
 モデルのデータ数を$R$と表す．
 \begin{description}
   \item[AIC (Akaike Information Criterion; 赤池情報量規準)]~\\
-    1973年に赤池によって提案された情報量規準である$^{2)}$．
+    1973年に赤池$^{2)}$によって提案された情報量規準である．
     \begin{align}
       \label{eq:aic}
       \mathrm{AIC}(M_j) = \hat{l}_j(D) - p_j
@@ -107,13 +43,13 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
     したがって，標本サイズが小さい場合はその過程が成り立たず，AICによるモデル決定は
     パラメータ数を過大に見積もってしまう．
 
-    そこで，N. Sugiura は漸近理論を使わない不偏推定量であるcAICを導出した$^{3)}$．
+    そこで，N. Sugiura$^{3)}$ は漸近理論を使わない不偏推定量であるcAICを導出した．
     \begin{align}
       \label{eq:caic}
       \mathrm{cAIC}(M_j) = \hat{l}_j(D) - \frac{p_j \cdot R}{R-p_j-1}
     \end{align}
   \item[BIC (Beyesian Information Criterion; ベイズ情報量規準)]~\\
-    BICは1978年にSchwartzによって提案された$^{4)}$．
+    BICは1978年にSchwartz$^{4)}$によって提案された．
     AICとは異なり，罰則項に事後確率を利用する．
     \begin{align}
       \label{eq:bic}
@@ -153,6 +89,53 @@ K-meansの逐次繰り返しと，BICによる分割停止規準を用いるこ�
     \end{enumerate}
     \item 前の処理で$k$が増加した場合は処理2へ戻る．そうでない場合は終了する．
 \end{enumerate}
+
+\figurenum{fig:x-means}にX-meansの具体的な動作例を示す．
+\figurenum{fig:x-means}aは5つの等方Gauss分布から生成されたデータである．
+クラスタ数の初期値$k=2$でK-meansを実行後，親と子のBICを計算した結果が\figurenum{fig:x-means}bである．
+$k=2$でK-meansによりクラスタリングした結果，上の4つのデータの塊と右下の1つの塊にクラスタリングされた．
+図中の丸印が親クラスタのセントロイド，ばつ印が子クラスタのセントロイドを表す．
+また，BIC ($k=1$) が親クラスタのBIC，BIC ($k=2$) が子クラスタのBICを表す．
+\figurenum{fig:x-means}bの場合，赤色のクラスタでは子のBICが親クラスタのものに比べ大きく，
+紫色のクラスタでは子のBICが親クラスタのものに比べ小さい．
+よって親クラスタと子クラスタのBICの大小関係から，赤色のクラスタのセントロイドは2つに分割し，
+赤色のクラスタのセントロイドは分割しない．
+その結果，クラスタ数が1つ増え，クラスタ数は3となる．
+次に，全データに対し，クラスタ数3でK-meansを実行し，BICを計算した結果が\figurenum{fig:x-means}cである．
+その結果，親クラスタと子クラスタのBICの大小関係からクラスタを1つ増やす．
+同様に，\figurenum{fig:x-means}dでは，クラスタ数4でK-meansを実行しBIC大小結果を比較し，
+クラスタを1つ増やしている．
+そして，クラスタ数が収束するまで行った結果が\figurenum{fig:x-means}eである．
+この場合，全てのクラスタにおいて親のBICが大きくなっているので，クラスタ数4と推定された．
+この推定結果は実際のクラスタ数と一致しており，正確に推定できていることがわかる．
+
+\begin{figure}[htbp]
+  \begin{minipage}{0.5\hsize}
+    \begin{center}
+      \includegraphics[width=1\linewidth]{img/xmeans/a.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.5\hsize}
+    \begin{center}
+      \includegraphics[width=1\linewidth]{img/xmeans/b.pdf}
+    \end{center}
+  \end{minipage}\\
+  \begin{minipage}{0.5\hsize}
+    \begin{center}
+      \includegraphics[width=1\linewidth]{img/xmeans/c.pdf}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}{0.5\hsize}
+    \begin{center}
+      \includegraphics[width=1\linewidth]{img/xmeans/d.pdf}
+    \end{center}
+  \end{minipage}\\
+  \begin{center}
+    \includegraphics[width=0.5\linewidth]{img/xmeans/e.pdf}
+  \end{center}
+  \caption{X-meansの動作}
+  \label{fig:x-means}
+\end{figure}
 
 X-meansで用いるBICは次のように求められる．
 $d$次元のデータ${\bm D}=({\bm x_0}, {\bm x_1}, \cdots, {\bm x_d})$を

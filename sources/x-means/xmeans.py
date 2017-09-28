@@ -23,6 +23,8 @@ class XMeans:
         X = self.X
         M = self.dim
         num = self.num
+        
+        plot_clusters_no_color(X, num, str(k))
 
         while(1):
             ok = k
@@ -41,13 +43,16 @@ class XMeans:
                 # AIC
                 # obic[i] = self.log_likelihood(rn, rn, var, M, 1) - p
                 # BIC
-                # obic[i] = self.log_likelihood(rn, rn, var, M, 1) - p/2.0 * mt.log(rn)
+                obic[i] = self.log_likelihood(rn, rn, var, M, 1) - p/2.0 * mt.log(rn)
                 # c-AIC
-                obic[i] = self.log_likelihood(rn, rn, var, M, 1) - (p * rn) / (rn - p - 1)
+                # obic[i] = self.log_likelihood(rn, rn, var, M, 1) - (p * rn) / (rn - p - 1)
+                # log-likelihood
+                # obic[i] = self.log_likelihood(rn, rn, var, M, 1)
 
             sk = 2
             nbic = np.zeros(k)
             addk = 0
+            smeans = np.empty( (0, 2), int)
 
             for i in range(k):
                 ci = X[labels == i]
@@ -56,6 +61,9 @@ class XMeans:
                 kmeans = KMeans(n_clusters=sk).fit(ci)
                 ci_labels = kmeans.labels_
                 smean = kmeans.cluster_centers_
+
+                smeans = np.append( smeans, np.array(smean), axis=0 )
+                print(smeans)
 
                 for l in range(sk):
                     rn = np.size(np.where(ci_labels == l))
@@ -66,12 +74,17 @@ class XMeans:
                 # AIC
                 # nbic[i] -= p
                 # BIC
-                # nbic[i] -= p/2.0 * mt.log(r)
+                nbic[i] -= p/2.0 * mt.log(r)
                 # cAIC
-                nbic[i] -= (p * r) / (r - p - 1)
+                # nbic[i] -= (p * r) / (r - p - 1)
+
+                print("obic: ", obic[i], "nbic: ", nbic[i])
 
                 if obic[i] < nbic[i]:
                     addk += 1
+
+            print(smeans)
+            plot_clusters_with_centroids(X, labels, [mean, smeans], num, k, str(k))
 
             k += addk
 
@@ -83,3 +96,62 @@ class XMeans:
         self.k = k
         self.m = kmeans.cluster_centers_
 
+def plot_clusters_no_color(all_samples, n_samples_per_cluster, name='after'):
+    import datetime
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    plt.scatter(all_samples[:,0], all_samples[:,1], c='k')
+    d = datetime.datetime.now()
+    plt.show()
+    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
+
+def plot_clusters(all_samples, labels, n_samples_per_cluster, num, name='after'):
+    import datetime
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    colour = plt.cm.rainbow(np.linspace(0, 1, num))
+    for i in range(num):
+        samples = np.array([data for j, data in enumerate(all_samples) if labels[j]==i])
+        plt.scatter(samples[:,0], samples[:,1], c=colour[i])
+    d = datetime.datetime.now()
+    plt.show()
+    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
+
+def plot_clusters_3d(all_samples, labels, n_samples_per_cluster, num, name='after'):
+    import datetime
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d.axes3d import Axes3D
+
+    colour = plt.cm.rainbow(np.linspace(0, 1, num))
+    fig = plt.figure()
+    ax = Axes3D(fig)
+    for i in range(num):
+        samples = np.array([data for j, data in enumerate(all_samples) if labels[j]==i])
+        ax.scatter(samples[:,0], samples[:,1], c=colour[i])
+    d = datetime.datetime.now()
+    plt.show()
+    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
+
+def plot_clusters_with_centroids(all_samples, labels, centroids, n_samples_per_cluster, num, name='after'):
+    import datetime
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    plt.clf()
+    colour = plt.cm.rainbow(np.linspace(0, 1, num))
+    for i in range(num):
+        samples = np.array([data for j, data in enumerate(all_samples) if labels[j]==i])
+        plt.scatter(samples[:,0], samples[:,1], c=colour[i])
+
+    parent = centroids[0]
+    child = centroids[1]
+    plt.scatter(parent[:, 0], parent[:, 1], c='k', marker='o')
+    plt.scatter(child[:, 0], child[:, 1], c='k', marker='x')
+
+    d = datetime.datetime.now()
+    plt.show()
+    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
