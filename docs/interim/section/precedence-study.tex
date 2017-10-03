@@ -147,13 +147,12 @@ $k$-meansでは，$r_{nk}$と$\vector{\mu}_k$をそれぞれ最適化する2つ�
 モデルに関する真の分布のK-L情報量は$\log\{g(X)/f(X)\}$の期待値を取り\eqref{eq:k-l-div}で表される．
 \begin{align}
   \label{eq:k-l-div}
-  I(g \mid f) &= E_X\left(\log \left\{\frac{g(X)}{f(X)}\right\}\right)\\\nonumber
-              &= \int^{\infty}_{-\infty}\log\left\{\frac{g(x)}{f(x)}\right\}g(x)dx
+  I(g \mid f) &= \int^{\infty}_{-\infty}\log\left\{\frac{g(x)}{f(x)}\right\}g(x)dx
 \end{align}
 ただし，$\log$は自然対数で，注記がない限り一貫してこの意味で用いる．
 
 このように，真の分布がわかっている場合にはK-L情報量によってモデルの良し悪しを比較できた．
-しかし，通常は真の分布が未知で，真の分布から得られたデータだけが与えられていることがい．
+しかし，通常は真の分布が未知で，真の分布から得られたデータだけが与えられていることが多い．
 したがって，データからK-L情報量を推定する必要がある．
 \eqref{eq:k-l-div}を展開すると
 \begin{align*}
@@ -164,7 +163,7 @@ $k$-meansでは，$r_{nk}$と$\vector{\mu}_k$をそれぞれ最適化する2つ�
 となるが，右辺の第2項は定数であり，右辺第1項が大きいほどK-L情報量$I(g \mid f)$は
 小さくなることがわかる．
 すなわち，K-L情報量の大小比較のためには，本質的には$\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx$だけを推定すれば良いことがわかる．
-右辺第1項の$\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx$は，確率密度関数$\log f(x)$の期待値$E( \log f(x))$であり，平均対数尤度と呼ばれている．
+右辺第1項の$\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx$は，確率密度関数$\log f(x)$の期待値であり，平均対数尤度と呼ばれている．
 ここで，
 \begin{align*}
   \sum_{i=1}^{n}\log f(x_i)
