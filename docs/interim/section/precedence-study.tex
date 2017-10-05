@@ -9,7 +9,7 @@
 \subsection{$k$-means}
 %k-meansのkは$k$
 様々なクラスタリング手法の中で最も有名な手法が$k$-meansである．
-$k$-means$^{1)}$は，多次元空間上のデータについて，ユークリッド距離を用い各データ点が属するクラスタを決定する手法である．
+$k$-means\cite{k-means}は，多次元空間上のデータについて，ユークリッド距離を用い各データ点が属するクラスタを決定する手法である．
 % $k$-meansは，以下の2つの手順を繰り返すことでクラスタリングを行う．
 % \begin{enumerate}
 %   \item 各データ点とデータ点の距離を求め，各データ点を最も近いセントロイドのクラスタに割り当てる．
@@ -155,24 +155,24 @@ $k$-meansでは，$r_{nk}$と$\vector{\mu}_k$をそれぞれ最適化する2つ�
 しかし，通常は真の分布が未知で，真の分布から得られたデータだけが与えられていることが多い．
 したがって，データからK-L情報量を推定する必要がある．
 \eqref{eq:k-l-div}を展開すると
-\begin{align*}
+\begin{align}
   I(g \mid f) &= \int^{\infty}_{-\infty}\left\{\log\frac{g(x)}{f(x)}\right\}g(x)dx\\\nonumber
               &= -\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx - 
                  \left(-\int^{\infty}_{-\infty}\{\log g(x)\}g(x)dx\right)
-\end{align*}
+\end{align}
 となるが，右辺の第2項は定数であり，右辺第1項が大きいほどK-L情報量$I(g \mid f)$は
 小さくなることがわかる．
 すなわち，K-L情報量の大小比較のためには，本質的には$\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx$だけを推定すれば良いことがわかる．
 右辺第1項の$\int^{\infty}_{-\infty}\{\log f(x)\}g(x)dx$は，確率密度関数$\log f(x)$の期待値であり，平均対数尤度と呼ばれている．
 ここで，
-\begin{align*}
+\begin{align}
   \sum_{i=1}^{n}\log f(x_i)
-\end{align*}
+\end{align}
 を対数尤度と呼ぶことにすると，$n$個の独立な観測値$\{x_1, x_2, \cdots, x_i\}$が得られると，
 この平均対数尤度は，対数尤度の$n$分の1
-\begin{align*}
+\begin{align}
   \frac{1}{n}\sum_{i=1}^{n}\log f(x_i)
-\end{align*}
+\end{align}
 で近似される．
 したがって，符号に注意すると，対数尤度が大きいほど，そのモデルは真の分布に近いと考えられる．
 このようにして，対数尤度をK-L情報量の推定値と考えることにすると異なったタイプのモデルの
@@ -183,28 +183,28 @@ $k$-meansでは，$r_{nk}$と$\vector{\mu}_k$をそれぞれ最適化する2つ�
 $\theta$は確率密度関数を規定するパラメータである．この時，観測値$(x_1, x_2, \cdots, x_n)$は
 与えられたものとして固定し，$f$を$\theta$の関数と考える時，この関数を\textbf{尤度}と呼び，
 $L(\theta)$で表す．すなわち，
-\begin{align*}
+\begin{align}
   L(\theta) = f(x_1, x_2, \cdots, x_n \mid \theta)
-\end{align*}
+\end{align}
 である．特に，確率変数が独立な場合には$(X_1, X_2, \cdots, X_n)$の確率密度関数は，
 各$X_i (i = 1, \cdots, n)$の確率密度関数の積に等しいことから，
-\begin{align*}
+\begin{align}
   L(\theta) &= f(x_1 \mid \theta)f(x_2 \mid \theta) \cdots f(x_n \mid \theta)\\
   &= \prod_{i=1}^{n}f(x_i \mid \theta)
-\end{align*}
+\end{align}
 となる．この両辺の対数をとると，すでに求められた対数尤度関数
-\begin{align*}
+\begin{align}
   l(\theta) = \sum_{i=1}^{n}\log f(x_i \mid \theta)
-\end{align*}
+\end{align}
 が導かれる．
 
 ここでは，平均対数尤度の推定量から対数尤度を直接導入した．
 しかし，モデルが確率分布の形で与えられている場合には，まず観測値の同時分布から
 尤度を定義し，その対数として対数尤度を求めるほうが都合が良い．
 $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数として対数尤度
-\begin{align*}
+\begin{align}
   l(\theta) = \log f(x_1, \cdots, x_n \mid \theta)
-\end{align*}
+\end{align}
 が定義できる．
 
 \subsection{最尤法}

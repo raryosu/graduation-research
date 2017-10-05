@@ -3,7 +3,7 @@
 本研究では，クラスタ数推定にX-meansを用いる．そして，X-meansで用いる情報量基準を変更することで，どの情報量基準がクラスタ数推定に有効か検証する．
 
 \subsection{X-means}
-X-means$^{5)}$は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
+X-means\cite{x-means}は，データ分布が混合等方Gauss分布から生成されたと想定してクラスタ数推定及び
 クラスタリングを行う手法である．
 $k$-meansの逐次繰り返しと，BICによる分割停止規準を用いることで，クラスタ数を推定しクラスタリングを実行する．
 
@@ -141,7 +141,7 @@ AICは最大対数尤度が同程度のモデルがあるときには，その�
 モデルのデータ数を$R$と表す．
 \begin{description}
   \item[AIC (Akaike Information Criterion; 赤池情報量規準)]~\\
-    1973年にH. Akaike$^{2)}$によって提案された情報量規準である．
+    1973年にH. Akaike\cite{AIC}によって提案された情報量規準である．
     \begin{align}
       \label{eq:aic}
       \mathrm{AIC}(M_j) = \hat{l}_j(D) - p_j
@@ -151,13 +151,13 @@ AICは最大対数尤度が同程度のモデルがあるときには，その�
     したがって，標本サイズが小さい場合はその過程が成り立たず，AICによるモデル決定は
     パラメータ数を過大に見積もってしまう．
 
-    そこで，N. Sugiura$^{3)}$ は漸近理論を使わない不偏推定量であるcAICを導出した．
+    そこで，N. Sugiura\cite{cAIC} は漸近理論を使わない不偏推定量であるcAICを導出した．
     \begin{align}
       \label{eq:caic}
       \mathrm{cAIC}(M_j) = \hat{l}_j(D) - \frac{p_j \cdot R}{R-p_j-1}
     \end{align}
   \item[BIC (Beyesian Information Criterion; ベイズ情報量規準)]~\\
-    BICは1978年にSchwartz$^{4)}$によって提案された．
+    BICは1978年にSchwartz\cite{BIC}によって提案された．
     AICとは異なり，罰則項に事後確率を利用する．
     \begin{align}
       \label{eq:bic}
