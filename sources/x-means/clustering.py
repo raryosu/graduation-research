@@ -19,6 +19,7 @@ else:
     iris = datasets.load_iris()
     X = iris.data
     TrueLabels = iris.target
+    name = 'iris'
 
 
 X = tf.Variable(X)
@@ -40,6 +41,5 @@ with tf.Session() as session:
 
     # print("Estimated k = " + str(xm.k) + ", purity = " + str(purity) + ", NMI = " + str(nmi) + ", ARI = " + str(ari) + "\n")
     print(str(xm.k) + ", " + str(purity) + ", " + str(nmi) + ", " + str(ari))
-
-    # plot_clusters(X_values, xm.labels, NUM, xm.k, name=name)
-    plot_clusters_3d(X_values, xm.labels, NUM, xm.k, name=name)
+    # plot_clusters(X_values[:, :3], xm.labels[:, :3], xm.k, name=name)
+    plot_clusters_3d(X_values, xm.labels, xm.k, name=name)
