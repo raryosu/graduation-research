@@ -41,4 +41,3 @@ $ latexmk -c
   * Numpy
   * Matplotlib
 
-
