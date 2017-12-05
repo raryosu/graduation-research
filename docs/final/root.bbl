@@ -1,0 +1,130 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\sortlist[entry]{nty/global/}
+  \entry{akaike1998information}{incollection}{}
+    \name{author}{1}{}{%
+      {{hash=AH}{%
+         family={Akaike},
+         familyi={A\bibinitperiod},
+         given={Hirotogu},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer}%
+    }
+    \strng{namehash}{AH1}
+    \strng{fullhash}{AH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{A}
+    \field{sortinithash}{A}
+    \field{booktitle}{Selected Papers of Hirotugu Akaike}
+    \field{pages}{199\bibrangedash 213}
+    \field{title}{Information theory and an extension of the maximum likelihood
+  principle}
+    \field{year}{1998}
+  \endentry
+
+  \entry{pelleg2000x}{inproceedings}{}
+    \true{moreauthor}
+    \name{author}{2}{}{%
+      {{hash=PD}{%
+         family={Pelleg},
+         familyi={P\bibinitperiod},
+         given={Dan},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=MAW}{%
+         family={Moore},
+         familyi={M\bibinitperiod},
+         given={Andrew\bibnamedelima W},
+         giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{PDMAW+1}
+    \strng{fullhash}{PDMAW+1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{P}
+    \field{sortinithash}{P}
+    \field{booktitle}{ICML}
+    \field{pages}{727\bibrangedash 734}
+    \field{title}{X-means: Extending K-means with Efficient Estimation of the
+  Number of Clusters.}
+    \field{volume}{1}
+    \field{year}{2000}
+  \endentry
+
+  \entry{schwarz1978estimating}{article}{}
+    \true{moreauthor}
+    \name{author}{1}{}{%
+      {{hash=SG}{%
+         family={Schwarz},
+         familyi={S\bibinitperiod},
+         given={Gideon},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Institute of Mathematical Statistics}%
+    }
+    \strng{namehash}{SG+1}
+    \strng{fullhash}{SG+1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{number}{2}
+    \field{pages}{461\bibrangedash 464}
+    \field{title}{Estimating the dimension of a model}
+    \field{volume}{6}
+    \field{journaltitle}{The annals of statistics}
+    \field{year}{1978}
+  \endentry
+
+  \entry{sugiura1978further}{article}{}
+    \name{author}{1}{}{%
+      {{hash=SN}{%
+         family={Sugiura},
+         familyi={S\bibinitperiod},
+         given={Nariaki},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Taylor \& Francis}%
+    }
+    \strng{namehash}{SN1}
+    \strng{fullhash}{SN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{number}{1}
+    \field{pages}{13\bibrangedash 26}
+    \field{title}{Further analysts of the data by akaike's information
+  criterion and the finite corrections: Further analysts of the data by
+  akaike's}
+    \field{volume}{7}
+    \field{journaltitle}{Communications in Statistics-Theory and Methods}
+    \field{year}{1978}
+  \endentry
+\endsortlist
+\endinput
