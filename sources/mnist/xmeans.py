@@ -34,15 +34,24 @@ def kmeans(X, k):
 def main():
     X, TrueLabels = prepare_dataset()
 
-    xm = XMeans(X, ic="bic")
+    xm = XMeans(X, ic="ll")
     xm.fit()
 
     purity = metrics.adjusted_rand_score(TrueLabels, xm.labels_)
     nmi = metrics.normalized_mutual_info_score(TrueLabels, xm.labels_)
     ari = metrics.adjusted_rand_score(TrueLabels, xm.labels_)
 
-    print(str(purity) + ", " + str(nmi) + ", " + str(ari))
+    print(xm.ic + ", " + str(xm.k_) + ", " + str(purity) + ", " + str(nmi) + ", " + str(ari))
 
 
 if __name__ == '__main__':
     main()
+
+"""
+IC      K       Purity          NMI             ARI
+---------------------------------------------------------------
+AIC     32      0.282377190261  0.562954278053  0.282377190261
+BIC     32      0.28312802996   0.562243771104  0.28312802996
+cAIC    32      0.27811599645   0.56101889037   0.27811599645
+ll      32      0.28736538966   0.569692653863  0.28736538966
+"""
