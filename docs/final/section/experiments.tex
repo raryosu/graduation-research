@@ -74,7 +74,23 @@
   \end{center}
 \end{figure}
 
-\tablenum{table:3dim}に都度ランダムに生成されたデータに対して100回クラスタリングを行っ
+\tablenum{table:3dim}に都度ランダムに生成されたデータに対して100回クラスタリングを行ったときの，
+推定されたクラスタ数，ARI, NMI, Purityの平均値および推定されたクラスタ数の分散を示す．
+2次元のクラスタリングとは異なり，3次元空間においてはBICを分割停止規準として採用した場合の精度が良くなっている．
+分散値も非常に小さいため，安定して精度の高いクラスタ数推定を行っていることが伺える．
+
+cAICとAICの場合を比較した場合，cAICのほうがクラスタリングの精度が高いことがわかる．
+また，AICを用いた場合では，2次元空間ほど推定されたクラスタ数の分散が大きくないことがわかる．
+2次元空間では，クラスタ数を過大に見積もってしまう問題があったが，
+3次元空間においてその問題は発生していなかった．
+
+全体的に3次元空間に生成したデータのクラスタリング結果が2次元のものと比べ向上している．
+これは，2次元空間と3次元空間とでは，空間の広さが異なるためだと考えられる．
+同一条件でデータを生成したため，2次元空間においてはクラスタ同士が重なり合っているものが多かったが，
+3次元空間ではほぼ重なり合ったクラスタは存在していなかった．
+したがって，3次元空間のほうがクラスタリング精度が良くなっているようにみえるデータを取得したものと考えられる．
+
+\begin{table}[htb]
   \centering
   \caption{3次元空間におけるクラスタリング結果}
   \label{table:3dim}
@@ -87,6 +103,45 @@
   \end{tabular}
 \end{table}
 
-\subsection{MNISTのクラスタリング}
+\subsection{手書き数字データのクラスタリング}
 
+次に，実データの例としてMNIST (Modified National Institute of Standards and Technology database) と呼ばれる手書き数字データの
+クラスタリングの実験を行った．
+
+MNISTは70,000枚の手書きのアラビア数字 (0-9) の$28 \times 28$画素の画像データセットである．
+\figurenum{fig:mnist}にデータセットの一部を示す．
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{./img/MNIST.png}
+      \caption{MNISTの一部}
+      \label{fig:mnist}
+  \end{center}
+\end{figure}
+
+このMNISTのデータをX-meansおよびMean shiftによりクラスタリングした．
+X-meansの分割停止規準には，AIC, cAIC, BIC, 対数尤度関数を用いた．
+また，Mean shiftの際に用いる超球の大きさはPythonのライブラリであるscikit learnの関数
+(cluster.estimate$\_$bandwidth) により決定した．
+
+結果を\tablenum{table:mnist}に示す．
+
+\begin{table}[htb]
+  \centering
+  \caption{MNISTのクラスタリング結果}
+  \label{table:mnist}
+  \begin{tabular}{|c|c|c|c|c|} \hline
+    クラスタリング手法 & クラスタ数 & ARI & NMI & Purity \\\hline
+    X-means (AIC) & 32 & 0.282377190261 & 0.562954278053 & 0.282377190261\\
+    X-means (cAIC) & 32 & 0.28312802996 & 0.562243771104 & 0.28312802996\\
+    X-means (BIC) & 32 & 0.27811599645 & 0.56101889037 & 0.27811599645\\
+    X-means (対数尤度関数)& 32 & 0.28736538966 & 0.569692653863 & 0.28736538966\\
+    Mean shift & 1 & 0.0 & $-6.93889390391 \times 10^{-6}$ & 0.0\\\hline
+  \end{tabular}
+\end{table}
+
+X-meansにおけるクラスタリングでは，モデルとして等方混合Gauss分布を用いたが，
+MNISTのクラスタリングには他のモデルのほうが適していることがわかる．
+しかし，Mean shift によるクラスタリングでも適切なクラスタリング結果を得ることはできなかったため，
+より異なったアプローチを取る必要があると考えられる．
 
