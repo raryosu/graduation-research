@@ -217,3 +217,31 @@ $(X_1, X_2, \cdots, X_n)$が独立でない場合にも，尤度の対数とし�
 また，最尤法で導かれた推定量は\textbf{最尤推定量}と呼ばれ，この最尤推定量によって定められるモデルが
 最尤モデルである．
 最尤モデルの対数尤度を\textbf{最大対数尤度}という．
+
+\subsection{Mean shift}
+
+本実験では，クラスタリング結果の比較のため，mean shiftによるクラスタリングも行った．
+Mean shiftは，データ点$\vector{x}$を標本点として得られるような確率密度関数$f(\vector{x})$を想定し，
+その標本点から確率密度関数$f(\vector{x})$の極大点を探索する手法である．
+\figurenum{fig:mean-shift}にMean shiftによるクラスタリングの概念図を示す．
+ある任意の観測点$\vector{y}_j$から半径$h$の超球（2次元の場合は円）を考え，
+その範囲にある点群$\vector{x}_i$の平均$\vector{x}_c$を計算し，その位置に観測点$\vector{y}_{j+1}$を移動する．
+同様の操作を繰り返すと観測点は最大勾配の方向に移動し，極大点に収束する．
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{img/mean-shift.pdf}
+    \caption{Mean shiftによるクラスタリング}
+    \label{fig:mean-shift}
+  \end{center}
+\end{figure}
+
+Mean shiftを用いたクラスタリングは以下のように行う．
+\begin{enumerate}
+    \item 各点 $\vector{x}_i$にMean shiftを適用し，その収束位置 $\vector{x}_i^c$を計算する．
+    \item 任意の2個の点$\vector{x}_i$, $\vector{x}_j$について，$\|\vector{x}_i^c - \vector{x}_j^c\| < \text{thereshold}$なら
+      この2点を同じ極大点として同じクラスタとして扱う．
+    \item (1), (2)により，全ての点群$\vector{x}_i$を同じ収束位置に属するごとにクラスタに識別する．
+\end{enumerate}
+
+Mean shiftは，$k$-meansと異なり，クラスタ数をあらかじめ指定する必要がない．
