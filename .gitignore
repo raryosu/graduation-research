@@ -65,4 +65,4 @@ Temporary Items
 **/*.sw[abcdefghijklmnop]
 *.bak
 
-
+sources/**/img/*

@@ -20,6 +20,9 @@ class XMeans:
         self.dim = np.size(self.X, axis=1)
         self.KMax = kmax
         self.ic = ic.lower()
+        self.labels_ = []
+        self.k_ = 0
+        self.cluster_centers_ = []
 
     def log_likelihood(self, r, rn, var, m, k):
         l1 = - rn / 2.0 * mt.log(2 * mt.pi)
@@ -36,7 +39,6 @@ class XMeans:
         M = self.dim
         num = self.num
 
-        plot_clusters_no_color(X, str(k))
 
         while (1):
             ok = k
@@ -107,78 +109,13 @@ class XMeans:
                 if obic[i] < nbic[i]:
                     addk += 1
 
-            plot_clusters_with_centroids(X, labels, [mean, smean], k, str(k))
-
             k += addk
 
             if (ok == k) or (k >= self.KMax):
                 break
 
         kmeans = KMeans(n_clusters=k).fit(X)
-        self.labels = kmeans.labels_
-        self.k = k
-        self.m = kmeans.cluster_centers_
-
-
-def plot_clusters_no_color(all_samples, name='after'):
-    import datetime
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    plt.scatter(all_samples[:, 0], all_samples[:, 1], c='k')
-    d = datetime.datetime.now()
-    plt.show()
-    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
-
-
-def plot_clusters(all_samples, labels, num, name='after'):
-    import datetime
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    colour = plt.cm.rainbow(np.linspace(0, 1, num))
-    for i in range(num):
-        samples = np.array([data for j, data in enumerate(all_samples) if labels[j] == i])
-        plt.scatter(samples[:, 0], samples[:, 1], c=colour[i])
-    d = datetime.datetime.now()
-    plt.show()
-    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
-
-
-def plot_clusters_3d(all_samples, labels, num, name='after'):
-    import datetime
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d.axes3d import Axes3D
-
-    colour = plt.cm.rainbow(np.linspace(0, 1, num))
-    fig = plt.figure()
-    ax = Axes3D(fig)
-    for i in range(num):
-        samples = np.array([data for j, data in enumerate(all_samples) if labels[j] == i])
-        ax.scatter(samples[:, 0], samples[:, 1], c=colour[i])
-    d = datetime.datetime.now()
-    plt.show()
-    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
-
-
-def plot_clusters_with_centroids(all_samples, labels, centroids, num, name='after'):
-    import datetime
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    plt.clf()
-    colour = plt.cm.rainbow(np.linspace(0, 1, num))
-    for i in range(num):
-        samples = np.array([data for j, data in enumerate(all_samples) if labels[j] == i])
-        plt.scatter(samples[:, 0], samples[:, 1], c=colour[i])
-
-    parent = centroids[0]
-    child = centroids[1]
-    plt.scatter(parent[:, 0], parent[:, 1], c='k', marker='o')
-    plt.scatter(child[:, 0], child[:, 1], c='k', marker='x')
-
-    d = datetime.datetime.now()
-    plt.show()
-    plt.savefig("img/{0}_{1}.pdf".format(d.strftime("%Y%m%d%H%M%S"), name))
+        logger.debug("labels: {}".format(kmeans.labels_))
+        self.labels_ = kmeans.labels_
+        self.k_ = k
+        self.cluster_centers_ = kmeans.cluster_centers_

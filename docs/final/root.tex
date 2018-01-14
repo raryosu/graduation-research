@@ -1,0 +1,97 @@
+\documentclass[10.5pt,a4j]{ltjsarticle}
+
+% 卒業研究報告書スタイルファイル
+\usepackage{layouts/tsuyama/eeses}
+
+\usepackage[tocgraduated]{tocstyle}
+% ソースコード表示
+\usepackage{listings}
+% 色
+\usepackage{xcolor}
+% 数学関連
+\usepackage{amsmath, amssymb}
+% リスト制御
+\usepackage{enumitem}
+% 画像
+\usepackage{graphicx}
+% shaded環境の背景色の定義
+\definecolor{shadecolor}{gray}{0.80}
+% 枠
+\usepackage{ascmac}
+\usepackage{tcolorbox}
+% url表記
+\usepackage{url}
+% ハイパーリンク
+\usepackage[pdfencoding=auto]{hyperref}
+% フォント
+\usepackage{layouts/lualatexsets/fonts}
+% Tikz関係
+\usepackage{tikz}
+% 証明などのスタイル
+\usepackage{layouts/others/theorem}
+% セクションの表示スタイル
+%\usepackage{layouts/others/section}
+% ベクトル表記
+\usepackage{bm}
+\def\vector#1{\boldsymbol{#1}}
+% 疑似コード
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% 画像・図表等のrefコマンド
+\def\thmref#1{Thm. \ref{#1}}
+\def\lmmref#1{Lemma. \ref{#1}}
+\def\figref#1{図\ref{#1}}
+\def\eqref#1{(\ref{#1})式}
+\def\tableref#1{表\ref{#1}}
+
+%%% ドキュメント情報 %%%
+% 著者
+\author{萩原 涼介}
+% タイトル
+\title{クラスタ数推定に用いる最適な情報量基準の探求}
+% 指導教員
+\adviser{藤田 一寿}
+% 日付
+\date{平成29年2月13日}
+% 学科
+\affiliation{情報}
+% 種別
+\kind{\grapre}
+% pdfファイル情報
+\hypersetup{%
+  colorlinks=true,%
+  urlcolor=black,%
+  linkcolor=black,%
+  citecolor=black,%
+  linktocpage=true,%
+  bookmarks=false,%
+  pdftitle={卒業研究報告書},%
+  pdfsubject={クラスタ数推定に用いる最適な情報量基準の探求},%
+  pdfauthor={Hagihara Ryosuke},%
+  pdfkeywords={クラスタリング; 情報量規準; クラスタ数推定; 機械学習}
+}
+
+
+\begin{document}
+\maketitle
+
+% Abstract
+\input{section/abstract}
+
+% ToC
+\tableofcontents
+
+% はじめに
+\input{section/intro}
+% 先行研究
+\input{section/precedence-study}
+% 手法
+\input{section/technique}
+% 実験結果
+\input{section/experiments}
+% おわりに
+\input{section/conclusion}
+% 参考文献
+\input{section/bib}
+
+\end{document}

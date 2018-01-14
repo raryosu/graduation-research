@@ -102,3 +102,47 @@ cAICとAICの場合を比較した場合，cAICのほうがクラスタリング
     対数尤度関数 & 5.12 (4.1443) & 0.95731637 & 0.96541468 & 0.95731637\\\hline
   \end{tabular}
 \end{table}
+
+\subsection{手書き数字データのクラスタリング}
+
+次に，実データの例としてMNIST (Modified National Institute of Standards and Technology database) と呼ばれる手書き数字データの
+クラスタリングの実験を行った．
+
+MNISTは70,000枚の手書きのアラビア数字 (0-9) の$28 \times 28$画素の画像データセットである．
+\figurenum{fig:mnist}にデータセットの一部を示す．
+
+\begin{figure}[htbp]
+  \begin{center}
+    \includegraphics[width=0.7\linewidth]{./img/MNIST.png}
+      \caption{MNISTの一部}
+      \label{fig:mnist}
+  \end{center}
+\end{figure}
+
+このMNISTのデータをX-meansおよびMean shiftによりクラスタリングした．
+X-meansの分割停止規準には，AIC, cAIC, BIC, 対数尤度関数を用いた．
+また，Mean shiftの際に用いる超球の大きさはPythonのライブラリであるscikit learnの関数
+(cluster.estimate$\_$bandwidth) により決定した．
+
+結果を\tablenum{table:mnist}に示す．
+
+\begin{table}[htb]
+  \centering
+  \caption{MNISTのクラスタリング結果}
+  \label{table:mnist}
+  \begin{tabular}{|c|c|c|c|c|} \hline
+    クラスタリング手法 & クラスタ数 & ARI & NMI & Purity \\\hline
+    X-means (AIC) & 32 & 0.282377190261 & 0.562954278053 & 0.282377190261\\
+    X-means (cAIC) & 32 & 0.28312802996 & 0.562243771104 & 0.28312802996\\
+    X-means (BIC) & 32 & 0.27811599645 & 0.56101889037 & 0.27811599645\\
+    X-means (対数尤度関数)& 32 & 0.28736538966 & 0.569692653863 & 0.28736538966\\
+    Mean shift & 1 & 0.0 & $-6.93889390391 \times 10^{-6}$ & 0.0\\\hline
+  \end{tabular}
+\end{table}
+
+X-meansでは，どの分割停止規準を用いた場合も同様のクラスタリング結果となり，
+適切なクラスタリングが行われていないことがわかる．
+本実験ではX-meansのモデルとして等方混合Gauss分布を用いたが，
+実データのクラスタリングを行うときにはより適したモデルを選択する必要があると考えられる．
+また，Mean shiftによるクラスタリングの結果，確率密度の極大点を見つけることができず，1クラスタに収束した．
+したがって，Mean shift によるMNISTのクラスタリングにはより工夫が必要であることがわかる．
