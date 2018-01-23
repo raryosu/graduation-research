@@ -1,0 +1,134 @@
+\documentclass[twocolumn, 10.5pt,a4j]{ltjsarticle}
+
+% 卒業研究報告書スタイルファイル
+\usepackage{twocolums}
+
+\usepackage[tocgraduated]{tocstyle}
+% ソースコード表示
+\usepackage{listings}
+% 色
+\usepackage{xcolor}
+% 数学関連
+\usepackage{amsmath, amssymb}
+% リスト制御
+\usepackage{enumitem}
+% 画像
+\usepackage{graphicx}
+% shaded環境の背景色の定義
+\definecolor{shadecolor}{gray}{0.80}
+% 枠
+\usepackage{ascmac}
+\usepackage{tcolorbox}
+% url表記
+\usepackage{url}
+% ハイパーリンク
+\usepackage[pdfencoding=auto]{hyperref}
+% フォント
+\usepackage{layouts/lualatexsets/fonts}
+% Tikz関係
+\usepackage{tikz}
+% 証明などのスタイル
+\usepackage{layouts/others/theorem}
+% セクションの表示スタイル
+%\usepackage{layouts/others/section}
+% ベクトル表記
+\usepackage{bm}
+\def\vector#1{\boldsymbol{#1}}
+% ページ番号削除
+\pagestyle{empty}
+% 疑似コード
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% 画像・図表等のrefコマンド
+\def\thmref#1{Thm. \ref{#1}}
+\def\lmmref#1{Lemma. \ref{#1}}
+\def\figref#1{図\ref{#1}}
+\def\eqref#1{(\ref{#1})式}
+\def\tableref#1{表\ref{#1}}
+
+%%% ドキュメント情報 %%%
+% 著者
+\author{萩原 涼介}
+% タイトル
+\title{クラスタ数推定に用いる最適な情報量基準の探求}
+% 指導教員
+\adviser{藤田 一寿}
+% 発表番号
+\presentationnumber{A-07}
+
+\begin{document}
+\maketitle
+
+\section{はじめに}
+
+クラスタリングとはデータを教師なし学習により任意の数のクラスタに分ける手法である．
+$k$-means を始めとする多くのクラスタリング手法では，予めクラスタ数がわかっているものとして，
+クラスタ数を指定しクラスタリングを行う．しかし，データに対し最適なクラスタ数を指定しなければ，最適なクラスタリング結果を得ることはできない．
+しかし，一般にクラスタ数が事前にわかっていない．その為，クラスタ数を推定することは重要な課題となっている．
+クラスタ数推定を行う際，よく用いられるのが情報量規準と呼ばれれる指標である．
+情報量規準とは簡単に言えば確率分布とデータの分布の当てはまり具合を表すものである．
+その情報量基準は多くの研究者により様々なものが提案されている．
+しかし，どの情報量規準がどのようなデータに対し有効かは分かっていない．
+そこで本研究では，クラスタ数推定に用いる情報量規準として最適なものを数値実験を通し明らかにする．
+
+\section{実験手法}
+本研究ではX-meansと呼ばれる手法を用い，クラスタ数推定およびクラスタリングを行った．
+X-meansは情報量基準を用い，クラスタ数を決定する．
+AIC, cAIC, BICと呼ばれる3つの情報量規準をそれぞれ用いクラスタ数推定およびククラスタリングを行い，その結果の比較を行った．
+精度の評価には，正規化相互情報量 (NMI) および Purityを用いた．
+それぞれの指標は1に近づくほど良いクラスタリング結果であると言える．
+
+\section{実験結果}
+前期の数値実験では分散$\sigma^2 = 1$の2次元混合等方Gauss分布をデータセットとして用いた．
+このデータセットは5つの等方Gauss分布で構成される．そして各クラスタは500個のデータ点を持つ．
+このデータセットに対し，X-meansによるクラスタリングを行った．
+
+\tableref{table:2dim}は推定したクラスタ数とクラスタリングの精度を表す．それぞれの数値は100回実行した結果を平均したものである．
+この結果，混合等方Gauss分布ではBICとcAICが適していることがわかった．
+
+また，後期は実データとして手書き文字 (MNIST) のクラスタ数推定を行った．
+比較のため，確率ベースでないクラスタ数推定を行う手法としてMean shiftによるクラスタ数推定も行った．
+
+結果を\tableref{table:mnist}に示す．
+その結果，X-meansを採用した場合もMean shiftを採用した場合も適切なクラスタ数推定の結果を得ることができなかった．
+
+\begin{table}[htb]
+  \centering
+  \caption{2次元空間におけるクラスタリング結果}
+  \label{table:2dim}
+  \begin{tabular}{|c|c|c|c|} \hline
+    分割停止規準 & クラスタ数 & NMI & Purity \\\hline
+    BIC  & 4.58 & 0.88281 & 0.84459\\
+    cAIC & 4.55 & 0.89993 & 0.85329\\
+    AIC  & 4.69 & 0.88147 & 0.83642\\
+    対数尤度関数 & 5.32 & 0.91572 & 0.85700\\\hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[htb]
+  \centering
+  \caption{手書き文字データのクラスタリング結果}
+  \label{table:mnist}
+  \begin{tabular}{|c|c|c|c|c|} \hline
+    クラスタリング手法 & クラスタ数\\\hline
+    X-means (AIC) & 32\\
+    X-means (cAIC) & 32\\
+    X-means (BIC) & 32\\
+    X-means (対数尤度関数)& 32\\
+    Mean shift & 1\\\hline
+  \end{tabular}
+\end{table}
+
+\section{おわりに}
+混合等方Gauss分布から生成される人工データのクラスタリングにはBICが最も適していることがわかった．
+実データのクラスタ数推定を行う際には，そのデータにあったモデルやクラスタ数推定の手法を採用する必要があり，
+実データのクラスタ数を適切に推定するための手法を検討していく必要がある．
+
+\vspace{1em}
+\noindent【研究目標】\\
+クラスタ数推定に用いる最適な情報量規準を探求する
+
+\vspace{1em}
+\noindent【課題項目】\\
+$\bigcirc$: 数値実験, $\bigtriangleup$: 実データのクラスタリング\noindent
+\end{document}
