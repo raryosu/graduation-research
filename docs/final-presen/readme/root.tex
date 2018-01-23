@@ -86,7 +86,7 @@ AIC, cAIC, BICと呼ばれる3つの情報量規準をそれぞれ用いクラ�
 \tableref{table:2dim}は推定したクラスタ数とクラスタリングの精度を表す．それぞれの数値は100回実行した結果を平均したものである．
 この結果，混合等方Gauss分布ではBICとcAICが適していることがわかった．
 
-また，後期は実データとして手書き文字 (MNIST) のクラスタ数推定を行った．
+また，後期は実データとして手書き数字データセット (MNIST) のクラスタ数推定を行った．
 比較のため，確率ベースでないクラスタ数推定を行う手法としてMean shiftによるクラスタ数推定も行った．
 
 結果を\tableref{table:mnist}に示す．
@@ -107,7 +107,7 @@ AIC, cAIC, BICと呼ばれる3つの情報量規準をそれぞれ用いクラ�
 
 \begin{table}[htb]
   \centering
-  \caption{手書き文字データのクラスタリング結果}
+  \caption{手書き数字データのクラスタリング結果}
   \label{table:mnist}
   \begin{tabular}{|c|c|c|c|c|} \hline
     クラスタリング手法 & クラスタ数\\\hline
